@@ -9,7 +9,7 @@ const CurrentState = "currentGameState";
 const LastState = "lastGameState";
 const GeneralMessage = "generalMessage";
 const ClientReadyState = "readyState";
-let hasGameBegun = false;
+
 /** Enum for game state */
 const ServerGameState = {
   None: "None",
@@ -59,7 +59,15 @@ customMethods.setSyncInputs = function (
   const inputs = param[0];
   roomRef.broadcast("syncData", inputs);
 };
-
+customMethods.itemInteract = function (
+  roomRef: ShootingGalleryRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("itemInteract", inputs);
+};
 //====================================== END Client Request Logic
 
 // GAME LOGIC
@@ -117,7 +125,7 @@ let getGameState = function (roomRef: ShootingGalleryRoom, gameState: string) {
  * @param {*} deltaTime Server delta time in seconds
  */
 let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
-  if (hasGameBegun) return;
+  if (roomRef.hasGameBegun) return;
   let playersReady = false;
   // Switch on LastState since the waiting logic gets used in multiple places
   // Check if minimum # of clients to start a round exist
@@ -142,7 +150,7 @@ let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
   roomRef.lock();
   // Time to send targets to the clients
   roomRef.broadcast("beginRound", {});
-  hasGameBegun = true;
+  roomRef.hasGameBegun = true;
 };
 
 //====================================== END GAME STATE LOGIC
