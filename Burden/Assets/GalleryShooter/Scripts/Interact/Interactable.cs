@@ -27,8 +27,7 @@ public class Interactable : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = true;
         animator = GetComponent<Animator>();
         open = false;
-        player = FindObjectsOfType<PlayerController>().Where(
-            player => player.prefabName == ExampleManager.Instance.Avatar.ToString()).ToList()[0];
+        player = ExampleManager.GetPlayer();
     }
     public void Interact(PlayerController Player)
     {
@@ -62,6 +61,7 @@ public class Interactable : MonoBehaviour
 
     private void OnMouseOver()
     {
+        if (!player.hasGameBegun) return;
         Interact(player);
 
         ItemDetails itemDetails = new ItemDetails();

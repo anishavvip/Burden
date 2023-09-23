@@ -1,34 +1,24 @@
+using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 using static ExampleRoomController;
 
 public class InteractablesHelper : MonoBehaviour
 {
-    public ObjectGrabbable[] grabbables;
+    public DragRigidbody mysteryBox;
     public Interactable[] interactables;
     PlayerController player;
 
     private void Start()
     {
-        player = FindObjectsOfType<PlayerController>().Where(
-            player => player.prefabName != ExampleManager.Instance.Avatar.ToString()).ToList()[0];
+        player = ExampleManager.GetOpponent();
         RenameInteractables();
-        RenameGrabbables();
     }
 
     private void RenameInteractables()
     {
         int i = 0;
         foreach (var item in interactables)
-        {
-            item.name += i;
-            i++;
-        }
-    }
-    private void RenameGrabbables()
-    {
-        int i = 0;
-        foreach (var item in grabbables)
         {
             item.name += i;
             i++;
@@ -62,32 +52,25 @@ public class InteractablesHelper : MonoBehaviour
         onGrabItem -= GrabItem;
     }
 
-    private void GrabItem(GrabDetails grabbedItem)
+    private void GrabItem(GrabDetails input)
     {
-        //if (player.hasGameBegun)
-        //    foreach (var item in grabbables)
-        //    {
-        //        if (item.name == grabbedItem.itemName)
-        //        {
-        //            if (grabbedItem.name == player.prefabName)
-        //            {
-        //                if (player.SyncData.rightClicked)
-        //                {
-        //                    item.Throw();
-        //                    return;
-        //                }
-        //                else if (player.SyncData.leftClicked)
-        //                {
-        //                    item.Drop();
-        //                    return;
-        //                }
-        //                else
-        //                {
-        //                    item.Interact(player);
-        //                    return;
-        //                }
-        //            }
-        //        }
-        //    }
+        if (player.hasGameBegun)
+        {
+            if (player.prefabName == input.name)
+            {
+                Vector3 pos = new Vector3(input.xPos, input.yPos, input.zPos);
+                Quaternion rot = new Quaternion(input.xRot, input.yRot, input.zRot, input.wRot);
+                mysteryBox.transform.position = pos;
+                mysteryBox.transform.localRotation = rot;
+                if (input.isDrag)
+                    mysteryBox.Rigidbody.isKinematic = true;
+                else
+                    mysteryBox.Rigidbody.isKinematic = false;
+            }
+            else
+            {
+                mysteryBox.Rigidbody.isKinematic = false;
+            }
+        }
     }
 }

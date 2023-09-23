@@ -15,6 +15,7 @@ using UnityEngine;
 [Serializable]
 public class ExampleRoomController
 {
+    public delegate void OnSyncAudio(AudioDetails audioDetails);
     public delegate void OnGrabItem(GrabDetails grabbedItem);
     public delegate void OnInteractItem(ItemDetails iteractedItem);
     public delegate void OnRemoveRoom();
@@ -234,6 +235,8 @@ public class ExampleRoomController
 
         return null;
     }
+
+    public static event OnSyncAudio onSyncAudio;
     public static event OnGrabItem onGrabItem;
     public static event OnInteractItem onInteractItem;
     public static event OnRemoveRoom onRemoveRoom;
@@ -419,6 +422,7 @@ public class ExampleRoomController
         });
 
         //Custom game logic
+        _room.OnMessage<AudioDetails>("syncAudio", details => { onSyncAudio?.Invoke(details); });
         _room.OnMessage<ShootingGalleryMessage>("removeRoom", msg => { onRemoveRoom?.Invoke(); });
         _room.OnMessage<InputSyncData>("syncData", input => { onSyncData?.Invoke(input); });
         _room.OnMessage<ShootingGalleryNewTargetLineUpMessage>("newTargetLineUp",

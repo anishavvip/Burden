@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Colyseus;
 using LucidSightTools;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExampleManager : ColyseusManager<ExampleManager>
 {
@@ -139,7 +141,44 @@ public class ExampleManager : ColyseusManager<ExampleManager>
 
         _roomController.IncrementServerTime();
     }
+    public async void GetAvailableRoomsToRejoin()
+    {
+        while (client == null)
+        {
+            await Task.Delay(1);
+        }
+        ColyseusRoomAvailable[] rooms = await client.GetAvailableRooms(_roomController.roomName);
 
+
+        while (rooms.Length == 0)
+        {
+            await Task.Delay(100);
+        }
+        if (rooms != null)
+            if (rooms.Length > 0)
+            {
+                foreach (var room in rooms)
+                {
+                    Debug.Log(room.roomId + "|" + Avatar);
+                    if (room.roomId.Contains(Avatar.ToString()))
+                    {
+                        GalleryGameManager.Instance.OnQuitRoomToJoinAnotherRoom();
+                        JoinRoom(room.roomId);
+                        return;
+                    }
+                }
+            }
+    }
+    private void LoadGallery(Action onComplete)
+    {
+        onComplete.Invoke();
+        SceneManager.LoadScene("Main");
+    }
+
+    public void JoinRoom(string id)
+    {
+        LoadGallery(() => { JoinExistingRoom(id); });
+    }
     public async void GetAvailableRooms()
     {
         while (client == null)
@@ -155,7 +194,32 @@ public class ExampleManager : ColyseusManager<ExampleManager>
     {
         await _roomController.JoinRoomId(roomID);
     }
-
+    public static PlayerController GetOpponent()
+    {
+        PlayerController player;
+        if (Instance.Avatar == Avatars.Child)
+        {
+            player = GalleryGameManager.Instance.mom;
+        }
+        else
+        {
+            player = GalleryGameManager.Instance.child;
+        }
+        return player;
+    }
+    public static PlayerController GetPlayer()
+    {
+        PlayerController player;
+        if (Instance.Avatar == Avatars.Mom)
+        {
+            player = GalleryGameManager.Instance.mom;
+        }
+        else
+        {
+            player = GalleryGameManager.Instance.child;
+        }
+        return player;
+    }
     public async void CreateNewRoom(string roomID)
     {
         await _roomController.CreateSpecificRoom(client, _roomController.roomName, roomID);

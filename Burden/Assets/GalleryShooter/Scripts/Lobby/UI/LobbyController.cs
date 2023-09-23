@@ -12,8 +12,9 @@ public enum Avatars
 }
 public class LobbyController : MonoBehaviour
 {
-    public static LobbyController Instance;
     string roomID = "";
+    [SerializeField]
+    private GameObject container = null;
     [SerializeField]
     private GameObject connectingCover = null;
     [SerializeField]
@@ -27,13 +28,13 @@ public class LobbyController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         connectingCover.SetActive(true);
         errorConnectingCover.SetActive(false);
     }
 
     private IEnumerator Start()
     {
+        container.SetActive(true);
         roomID = "";
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -81,19 +82,19 @@ public class LobbyController : MonoBehaviour
         {
             connectingCover.SetActive(true);
             string oppositeRoomId = GetOppositeID(avatar);
-
-            if (rooms.Length > 0)
-            {
-                foreach (var room in rooms)
+            if (rooms != null)
+                if (rooms.Length > 0)
                 {
-                    if (room.roomId.Contains(avatar))
+                    foreach (var room in rooms)
                     {
-                        JoinRoom(room.roomId);
-                        roomID = room.roomId;
-                        return;
+                        if (room.roomId.Contains(avatar))
+                        {
+                            JoinRoom(room.roomId);
+                            roomID = room.roomId;
+                            return;
+                        }
                     }
                 }
-            }
 
             CreateRoom(oppositeRoomId + "_" + ExampleManager.Instance.UserName);
         }
@@ -122,22 +123,6 @@ public class LobbyController : MonoBehaviour
         }
 
         return oppositeRoomId;
-    }
-
-    public void Rejoin(string avatar)
-    {
-        if (rooms.Length > 0)
-        {
-            foreach (var room in rooms)
-            {
-                if (room.roomId.Contains(avatar))
-                {
-                    GalleryGameManager.Instance.OnQuitGame();
-                    JoinRoom(room.roomId);
-                    return;
-                }
-            }
-        }
     }
     public void CreateRoom(string id)
     {
@@ -173,7 +158,7 @@ public class LobbyController : MonoBehaviour
             //Wait until the scene is loaded
             yield return new WaitForEndOfFrame();
         }
-
+        container.SetActive(false);
         onComplete.Invoke();
         op.allowSceneActivation = true;
         SceneManager.UnloadSceneAsync(currScene);

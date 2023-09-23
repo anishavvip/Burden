@@ -13,7 +13,6 @@ export class ShootingGalleryRoom extends Room<ColyseusRoomState> {
   customMethodController: any = null;
   customLogic: any;
   roomOptions: any;
-  hasGameBegun: boolean = false;
   
   /**
    * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
@@ -335,7 +334,6 @@ export class ShootingGalleryRoom extends Room<ColyseusRoomState> {
       logger.info("disconnected! client: " + client.id);
       logger.silly(`*** Removing Networked User and Entity ${client.id} ***`);
 
-      this.hasGameBegun = false;
       this.broadcast("removeRoom", {});
       //remove user
       this.state.networkedUsers.delete(client.sessionId);

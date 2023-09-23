@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Colyseus;
+﻿using Colyseus;
 using Colyseus.Schema;
-using LucidSightTools;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -54,7 +52,7 @@ public class GalleryGameManager : MonoBehaviour
         {
             yield return 0;
         }
-        InvokeRepeating(nameof(HelpJoinPlayer), 2, 1f);
+        InvokeRepeating(nameof(HelpJoinPlayer), 1, 2f);
     }
 
     //Subscribe to messages that will be sent from the server
@@ -138,12 +136,13 @@ public class GalleryGameManager : MonoBehaviour
                 setWaitingText = true;
                 uiController.SetWaitingText();
             }
-            LobbyController.Instance.Rejoin(ExampleManager.Instance.Avatar.ToString());
+            Debug.Log("trying to rejoin");
+            ExampleManager.Instance.GetAvailableRoomsToRejoin();
         }
         else
         {
+            CancelInvoke(nameof(HelpJoinPlayer));
             uiController.AllPlayersHaveJoined();
-            CancelInvoke();
         }
     }
 
@@ -220,27 +219,13 @@ public class GalleryGameManager : MonoBehaviour
         if (attributes.ContainsKey("currentGameState"))
         {
             eGameState nextState = TranslateGameState(attributes["currentGameState"]);
-            if (IsSafeStateTransition(currentGameState, nextState))
-            {
-                currentGameState = nextState;
-            }
-            else
-            {
-                LSLog.LogError($"CurrentGameState: Failed to transition from {currentGameState} to {nextState}");
-            }
+            currentGameState = nextState;
         }
 
         if (attributes.ContainsKey("lastGameState"))
         {
             eGameState nextState = TranslateGameState(attributes["lastGameState"]);
-            if (IsSafeStateTransition(lastGameState, nextState))
-            {
-                lastGameState = nextState;
-            }
-            else
-            {
-                LSLog.LogError($"LastGameState: Failed to transition from {lastGameState} to {nextState}");
-            }
+            lastGameState = nextState;
         }
     }
 
@@ -424,7 +409,20 @@ public class GalleryGameManager : MonoBehaviour
         return null;
     }
 
+    public void OnQuitRoomToJoinAnotherRoom()
+    {
+        if (ExampleManager.Instance.IsInRoom)
+        {
+            //Find playerController for this player
+            PlayerController pc = GetPlayerView(ExampleManager.Instance.CurrentNetworkedEntity.id);
+            if (pc != null)
+            {
+                pc.enabled = false; //Stop all the messages and updates
+            }
 
+            ExampleManager.Instance.LeaveAllRooms(null);
+        }
+    }
     public void OnQuitGame()
     {
         if (ExampleManager.Instance.IsInRoom)

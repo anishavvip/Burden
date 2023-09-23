@@ -3,17 +3,21 @@ using LucidSightTools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
+using UnityEngine.Windows;
 using Input = UnityEngine.Input;
 using Random = UnityEngine.Random;
+
+public enum AudioType
+{
+    Foot, Land
+}
+
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : ExampleNetworkedEntityView
 {
-    [SerializeField] public Transform objectGrabPointTransform;
-    public ObjectGrabbable objectGrabbable;
-
+    [HideInInspector] public DragRigidbody DragRigidbody = null;
     Vector3 initialPos = Vector3.zero;
     private CharacterController _characterController;
 
@@ -108,8 +112,27 @@ public class PlayerController : ExampleNetworkedEntityView
 
     private void OnEnable()
     {
+        ExampleRoomController.onSyncAudio += SyncAudio;
         ExampleRoomController.onBeginRound += BeginRound;
         ExampleRoomController.onSyncData += GetSyncData;
+    }
+
+    private void SyncAudio(AudioDetails audioDetails)
+    {
+        if (IsMine) return;
+        if (audioDetails == null) return;
+        if (audioDetails.name == prefabName)
+        {
+            if (audioDetails.audioType == AudioType.Foot.ToString())
+            {
+                var index = Random.Range(0, FootstepAudioClips.Length);
+                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_characterController.center), FootstepAudioVolume);
+            }
+            else if (audioDetails.audioType == AudioType.Land.ToString())
+            {
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_characterController.center), FootstepAudioVolume);
+            }
+        }
     }
 
     private void BeginRound()
@@ -128,7 +151,7 @@ public class PlayerController : ExampleNetworkedEntityView
             Quaternion rot = new Quaternion(input.xRot, input.yRot, input.zRot, input.wRot);
             transform.position = pos;
             transform.localRotation = rot;
-
+            SyncData.leftHold = input.leftHold;
             SyncData.rightClicked = input.rightClicked;
             ExampleManager.Instance.CurrentNetworkedEntity.timestamp = input.timestamp;
 
@@ -149,6 +172,7 @@ public class PlayerController : ExampleNetworkedEntityView
     }
     private void OnDisable()
     {
+        ExampleRoomController.onSyncAudio -= SyncAudio;
         ExampleRoomController.onSyncData -= GetSyncData;
         ExampleRoomController.onBeginRound -= BeginRound;
     }
@@ -328,6 +352,7 @@ public class PlayerController : ExampleNetworkedEntityView
         SyncData.jump = Input.GetButtonDown("Jump");
         SyncData.sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         SyncData.rightClicked = Input.GetMouseButtonDown(1);
+        SyncData.leftHold = Input.GetMouseButton(0);
 
         SyncData.xPos = transform.position.x;
         SyncData.yPos = transform.position.y;
@@ -463,6 +488,10 @@ public class PlayerController : ExampleNetworkedEntityView
             {
                 var index = Random.Range(0, FootstepAudioClips.Length);
                 AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_characterController.center), FootstepAudioVolume);
+                AudioDetails audioDetails = new AudioDetails();
+                audioDetails.name = prefabName;
+                audioDetails.audioType = AudioType.Foot.ToString();
+                ExampleManager.CustomServerMethod("syncAudio", new object[] { audioDetails });
             }
         }
     }
@@ -472,6 +501,10 @@ public class PlayerController : ExampleNetworkedEntityView
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
             AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_characterController.center), FootstepAudioVolume);
+            AudioDetails audioDetails = new AudioDetails();
+            audioDetails.name = prefabName;
+            audioDetails.audioType = AudioType.Land.ToString();
+            ExampleManager.CustomServerMethod("syncAudio", new object[] { audioDetails });
         }
     }
     private void HandleLook(float mouseX, float mouseY)

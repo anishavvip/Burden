@@ -59,6 +59,17 @@ customMethods.setSyncInputs = function (
   const inputs = param[0];
   roomRef.broadcast("syncData", inputs);
 };
+
+customMethods.syncAudio = function (
+  roomRef: ShootingGalleryRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("syncAudio", inputs);
+};
+
 customMethods.itemInteract = function (
   roomRef: ShootingGalleryRoom,
   client: Client,
@@ -68,6 +79,7 @@ customMethods.itemInteract = function (
   const inputs = param[0];
   roomRef.broadcast("itemInteract", inputs);
 };
+
 customMethods.itemGrab = function (
   roomRef: ShootingGalleryRoom,
   client: Client,
@@ -113,7 +125,18 @@ let setRoomAttribute = function (
 ) {
   roomRef.state.attributes.set(key, value);
 };
+/**
+ * Move the server game state to the new state
+ * @param {*} roomRef Reference to the room
+ * @param {*} newState The new state to move to
+ */
+let moveToState = function (roomRef: ShootingGalleryRoom, newState: string) {
+  // LastState = CurrentState
+  setRoomAttribute(roomRef, LastState, getGameState(roomRef, CurrentState));
 
+  // CurrentState = newState
+  setRoomAttribute(roomRef, CurrentState, newState);
+};
 /**
  * Returns the game state of the server
  * @param {*} roomRef Reference to the room
@@ -134,17 +157,16 @@ let getGameState = function (roomRef: ShootingGalleryRoom, gameState: string) {
  * @param {*} deltaTime Server delta time in seconds
  */
 let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
-  if (roomRef.hasGameBegun) return;
   let playersReady = false;
   // Switch on LastState since the waiting logic gets used in multiple places
   // Check if minimum # of clients to start a round exist
   const currentUsers = roomRef.state.networkedUsers.size;
-  let minReqPlayersToStartRound = Number(roomOptions["minReqPlayers"] || 2);
-  if (currentUsers < minReqPlayersToStartRound) {
+  let maxPlayer = roomRef.maxClients;
+  if (currentUsers < maxPlayer) {
     // Set room general message saying we're waiting for enough players to join the room
     roomRef.state.attributes.set(
       GeneralMessage,
-      `Waiting for more players to join - (${currentUsers}/${minReqPlayersToStartRound})`
+      `Waiting for more players to join - (${currentUsers}/${maxPlayer})`
     );
     return;
   }
@@ -159,7 +181,7 @@ let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
   roomRef.lock();
   // Time to send targets to the clients
   roomRef.broadcast("beginRound", {});
-  roomRef.hasGameBegun = true;
+  moveToState(roomRef, ServerGameState.None);
 };
 
 //====================================== END GAME STATE LOGIC
@@ -217,8 +239,7 @@ exports.ProcessMethod = function (
 };
 
 /**
- * Process report of a user leaving. If we were previously locked due to a game starting and didn't
- * unlock at the end because the room was full, we'll need to unlock now
+ * Process report of a user leaving.
  */
 exports.ProcessUserLeft = function (roomRef: ShootingGalleryRoom) {};
 //====================================== END Room accessed functions
