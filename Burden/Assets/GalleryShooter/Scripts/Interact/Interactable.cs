@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    float range = 15f;
+    float range = 8f;
     bool open;
     Animator animator;
     PlayerController player;
@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
     }
     void Start()
     {
+        GetComponent<Rigidbody>().isKinematic = true;
         animator = GetComponent<Animator>();
         open = false;
         player = FindObjectsOfType<PlayerController>().Where(
@@ -38,7 +39,7 @@ public class Interactable : MonoBehaviour
             {
                 if (open == false)
                 {
-                    if (Player.isLeftClick)
+                    if (Player.SyncData.rightClicked)
                     {
                         StartCoroutine(opening());
                     }
@@ -47,7 +48,7 @@ public class Interactable : MonoBehaviour
                 {
                     if (open == true)
                     {
-                        if (Player.isLeftClick)
+                        if (Player.SyncData.rightClicked)
                         {
                             StartCoroutine(closing());
                         }

@@ -15,6 +15,7 @@ using UnityEngine;
 [Serializable]
 public class ExampleRoomController
 {
+    public delegate void OnGrabItem(GrabDetails grabbedItem);
     public delegate void OnInteractItem(ItemDetails iteractedItem);
     public delegate void OnRemoveRoom();
     public delegate void OnSyncData(InputSyncData input);
@@ -233,6 +234,7 @@ public class ExampleRoomController
 
         return null;
     }
+    public static event OnGrabItem onGrabItem;
     public static event OnInteractItem onInteractItem;
     public static event OnRemoveRoom onRemoveRoom;
     public static event OnSyncData onSyncData;
@@ -390,6 +392,7 @@ public class ExampleRoomController
         _room.OnLeave += OnLeaveRoom;
 
         _room.OnStateChange += OnStateChangeHandler;
+        _room.OnMessage<GrabDetails>("itemGrab", item => { onGrabItem?.Invoke(item); });
         _room.OnMessage<ItemDetails>("itemInteract", item => { onInteractItem?.Invoke(item); });
         _room.OnMessage<ExampleNetworkedUser>("onJoin", currentNetworkedUser =>
         {

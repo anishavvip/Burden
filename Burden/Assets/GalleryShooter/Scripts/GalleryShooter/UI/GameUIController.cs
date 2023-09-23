@@ -15,6 +15,7 @@ public class GameUIController : MonoBehaviour
     private void Start()
     {
         waitingUI.SetActive(true);
+        waitingText.text = "...";
     }
     public void UpdatePlayerReadiness(bool showButton)
     {
@@ -29,9 +30,9 @@ public class GameUIController : MonoBehaviour
     {
         string text;
         if (ExampleManager.Instance.Avatar == Avatars.Mom)
-            text = $"{Avatars.Child}, you there?";
+            text = $"{Avatars.Child},\n are you there?";
         else 
-            text = $"{Avatars.Mom}, you there?";
+            text = $"{Avatars.Mom},\n are you there?";
         waitingText.text = text;
     }
     public void AllowExit(bool allowed)

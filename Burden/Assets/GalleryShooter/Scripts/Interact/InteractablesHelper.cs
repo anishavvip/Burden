@@ -1,8 +1,10 @@
 using System.Linq;
 using UnityEngine;
+using static ExampleRoomController;
 
 public class InteractablesHelper : MonoBehaviour
 {
+    public ObjectGrabbable[] grabbables;
     public Interactable[] interactables;
     PlayerController player;
 
@@ -10,6 +12,12 @@ public class InteractablesHelper : MonoBehaviour
     {
         player = FindObjectsOfType<PlayerController>().Where(
             player => player.prefabName != ExampleManager.Instance.Avatar.ToString()).ToList()[0];
+        RenameInteractables();
+        RenameGrabbables();
+    }
+
+    private void RenameInteractables()
+    {
         int i = 0;
         foreach (var item in interactables)
         {
@@ -17,9 +25,19 @@ public class InteractablesHelper : MonoBehaviour
             i++;
         }
     }
+    private void RenameGrabbables()
+    {
+        int i = 0;
+        foreach (var item in grabbables)
+        {
+            item.name += i;
+            i++;
+        }
+    }
     private void OnEnable()
     {
-        ExampleRoomController.onInteractItem += InteractItem;
+        onGrabItem += GrabItem;
+        onInteractItem += InteractItem;
     }
 
     private void InteractItem(ItemDetails interactedItem)
@@ -40,6 +58,36 @@ public class InteractablesHelper : MonoBehaviour
 
     private void OnDisable()
     {
-        ExampleRoomController.onInteractItem -= InteractItem;
+        onInteractItem -= InteractItem;
+        onGrabItem -= GrabItem;
+    }
+
+    private void GrabItem(GrabDetails grabbedItem)
+    {
+        //if (player.hasGameBegun)
+        //    foreach (var item in grabbables)
+        //    {
+        //        if (item.name == grabbedItem.itemName)
+        //        {
+        //            if (grabbedItem.name == player.prefabName)
+        //            {
+        //                if (player.SyncData.rightClicked)
+        //                {
+        //                    item.Throw();
+        //                    return;
+        //                }
+        //                else if (player.SyncData.leftClicked)
+        //                {
+        //                    item.Drop();
+        //                    return;
+        //                }
+        //                else
+        //                {
+        //                    item.Interact(player);
+        //                    return;
+        //                }
+        //            }
+        //        }
+        //    }
     }
 }

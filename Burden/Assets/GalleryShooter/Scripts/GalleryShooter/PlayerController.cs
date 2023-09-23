@@ -3,6 +3,7 @@ using LucidSightTools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using Input = UnityEngine.Input;
 using Random = UnityEngine.Random;
@@ -10,7 +11,9 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : ExampleNetworkedEntityView
 {
-    public bool isLeftClick = false;
+    [SerializeField] public Transform objectGrabPointTransform;
+    public ObjectGrabbable objectGrabbable;
+
     Vector3 initialPos = Vector3.zero;
     private CharacterController _characterController;
 
@@ -102,6 +105,7 @@ public class PlayerController : ExampleNetworkedEntityView
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
     }
+
     private void OnEnable()
     {
         ExampleRoomController.onBeginRound += BeginRound;
@@ -125,8 +129,7 @@ public class PlayerController : ExampleNetworkedEntityView
             transform.position = pos;
             transform.localRotation = rot;
 
-            isLeftClick = input.leftClicked;
-
+            SyncData.rightClicked = input.rightClicked;
             ExampleManager.Instance.CurrentNetworkedEntity.timestamp = input.timestamp;
 
             if (_hasAnimator)
@@ -308,9 +311,7 @@ public class PlayerController : ExampleNetworkedEntityView
         HandleInput(SyncData.left, SyncData.right, SyncData.up, SyncData.down, SyncData.jump, SyncData.sprint);
         HandleLook(SyncData.mouseX, SyncData.mouseY);
         JumpAndGravity(SyncData.jump);
-        isLeftClick = SyncData.leftClicked;
     }
-
     private void TakeInputs()
     {
         if (prefabName != "")
@@ -326,7 +327,7 @@ public class PlayerController : ExampleNetworkedEntityView
         SyncData.down = (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow));
         SyncData.jump = Input.GetButtonDown("Jump");
         SyncData.sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-        SyncData.leftClicked = Input.GetMouseButtonDown(0);
+        SyncData.rightClicked = Input.GetMouseButtonDown(1);
 
         SyncData.xPos = transform.position.x;
         SyncData.yPos = transform.position.y;

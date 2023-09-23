@@ -144,7 +144,7 @@ public class ExampleManager : ColyseusManager<ExampleManager>
     {
         while (client == null)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
         }
         ColyseusRoomAvailable[] rooms = await client.GetAvailableRooms(_roomController.roomName);
 
@@ -206,11 +206,11 @@ public class ExampleManager : ColyseusManager<ExampleManager>
     /// <summary>
     ///     <see cref="MonoBehaviour" /> callback that gets called just before app exit.
     /// </summary>
-    protected override void OnApplicationQuit()
+    protected override async void OnApplicationQuit()
     {
         base.OnApplicationQuit();
 
-        _roomController.LeaveAllRooms(true);
+        await _roomController.LeaveAllRooms(true);
 
         CleanUpOnAppQuit();
     }

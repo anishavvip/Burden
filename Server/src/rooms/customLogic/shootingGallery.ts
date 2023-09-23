@@ -68,6 +68,15 @@ customMethods.itemInteract = function (
   const inputs = param[0];
   roomRef.broadcast("itemInteract", inputs);
 };
+customMethods.itemGrab = function (
+  roomRef: ShootingGalleryRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("itemGrab", inputs);
+};
 //====================================== END Client Request Logic
 
 // GAME LOGIC

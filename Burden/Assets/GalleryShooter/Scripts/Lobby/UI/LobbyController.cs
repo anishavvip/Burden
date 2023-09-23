@@ -12,19 +12,24 @@ public enum Avatars
 }
 public class LobbyController : MonoBehaviour
 {
+    public static LobbyController Instance;
     string roomID = "";
     [SerializeField]
     private GameObject connectingCover = null;
-
+    [SerializeField]
+    private GameObject errorConnectingCover = null;
     public int minRequiredPlayers = 2;
     public int numberOfTargetRows = 5;
 
     //Variables to initialize the room controller
     public string roomName = "ShootingGalleryRoom";
     ColyseusRoomAvailable[] rooms;
+
     private void Awake()
     {
+        Instance = this;
         connectingCover.SetActive(true);
+        errorConnectingCover.SetActive(false);
     }
 
     private IEnumerator Start()
@@ -46,12 +51,9 @@ public class LobbyController : MonoBehaviour
         };
 
         ExampleManager.Instance.Initialize(roomName, roomOptions);
-        ExampleManager.onRoomsReceived += OnRoomsReceived;
 
-        CreateUser(() =>
-        {
-            connectingCover.SetActive(false);
-        });
+        ExampleManager.onRoomsReceived += OnRoomsReceived;
+        CreateUser();
     }
 
     private void OnDestroy()
@@ -59,7 +61,7 @@ public class LobbyController : MonoBehaviour
         ExampleManager.onRoomsReceived -= OnRoomsReceived;
     }
 
-    public void CreateUser(Action action)
+    public void CreateUser()
     {
         string desiredUserName = Guid.NewGuid().ToString();
 
@@ -71,48 +73,70 @@ public class LobbyController : MonoBehaviour
 
         ExampleManager.Instance.GetAvailableRooms();
 
-        action.Invoke();
+        connectingCover.SetActive(false);
     }
-    public async void AssignRoom(string avatar)
+    public void AssignRoom(string avatar)
     {
-        connectingCover.SetActive(true);
         try
         {
-            string oppositeRoomId;
-            if (avatar == Avatars.Mom.ToString())
-            {
-                //Mom
-                oppositeRoomId = Avatars.Child.ToString();
-                ExampleManager.Instance.Avatar = Avatars.Mom;
-            }
-            else
-            {
-                //Child
-                oppositeRoomId = Avatars.Mom.ToString();
-                ExampleManager.Instance.Avatar = Avatars.Child;
-            }
+            connectingCover.SetActive(true);
+            string oppositeRoomId = GetOppositeID(avatar);
 
             if (rooms.Length > 0)
             {
-                while (roomID == "")
+                foreach (var room in rooms)
                 {
-                    foreach (var room in rooms)
+                    if (room.roomId.Contains(avatar))
                     {
-                        if (room.roomId.Contains(avatar))
-                        {
-                            JoinRoom(room.roomId);
-                            roomID = room.roomId;
-                            return;
-                        }
+                        JoinRoom(room.roomId);
+                        roomID = room.roomId;
+                        return;
                     }
                 }
             }
-            CreateRoom(oppositeRoomId + ExampleManager.Instance.UserName);
+
+            CreateRoom(oppositeRoomId + "_" + ExampleManager.Instance.UserName);
         }
-        catch
+        catch (Exception e)
         {
-            await Task.Delay(10000);
+            Debug.LogException(e);
+            errorConnectingCover.SetActive(true);
             SceneManager.LoadScene("Lobby");
+        }
+    }
+
+    private static string GetOppositeID(string avatar)
+    {
+        string oppositeRoomId;
+        if (avatar == Avatars.Mom.ToString())
+        {
+            //Mom
+            oppositeRoomId = Avatars.Child.ToString();
+            ExampleManager.Instance.Avatar = Avatars.Mom;
+        }
+        else
+        {
+            //Child
+            oppositeRoomId = Avatars.Mom.ToString();
+            ExampleManager.Instance.Avatar = Avatars.Child;
+        }
+
+        return oppositeRoomId;
+    }
+
+    public void Rejoin(string avatar)
+    {
+        if (rooms.Length > 0)
+        {
+            foreach (var room in rooms)
+            {
+                if (room.roomId.Contains(avatar))
+                {
+                    GalleryGameManager.Instance.OnQuitGame();
+                    JoinRoom(room.roomId);
+                    return;
+                }
+            }
         }
     }
     public void CreateRoom(string id)
@@ -127,8 +151,6 @@ public class LobbyController : MonoBehaviour
 
     public void OnConnectedToServer()
     {
-        connectingCover.SetActive(false);
-
         Debug.Log("OnConnectedToServer");
     }
 

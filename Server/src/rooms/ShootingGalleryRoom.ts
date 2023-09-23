@@ -14,6 +14,7 @@ export class ShootingGalleryRoom extends Room<ColyseusRoomState> {
   customLogic: any;
   roomOptions: any;
   hasGameBegun: boolean = false;
+  
   /**
    * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
    * @param {*} fileName
@@ -91,9 +92,9 @@ export class ShootingGalleryRoom extends Room<ColyseusRoomState> {
     console.log(options);
     logger.info("***********************");
 
-    this.maxClients = 25;
+    this.maxClients = 2;
     this.roomOptions = options;
-    this.serverTime = 0;
+
     if (options["roomId"] != null) {
       this.roomId = options["roomId"];
     }

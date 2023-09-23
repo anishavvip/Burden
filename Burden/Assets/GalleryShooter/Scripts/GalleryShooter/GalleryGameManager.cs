@@ -54,6 +54,7 @@ public class GalleryGameManager : MonoBehaviour
         {
             yield return 0;
         }
+        InvokeRepeating(nameof(HelpJoinPlayer), 2, 1f);
     }
 
     //Subscribe to messages that will be sent from the server
@@ -128,13 +129,8 @@ public class GalleryGameManager : MonoBehaviour
             uiController.AllowExit(true);
         }
     }
-
-    private void Update()
+    private void HelpJoinPlayer()
     {
-        if (AwaitingPlayerReady() && Input.GetKeyDown(KeyCode.Return))
-        {
-            PlayerReadyToPlay();
-        }
         if (maxEntities != ExampleManager.Instance._roomController.Entities.Count)
         {
             if (!setWaitingText)
@@ -142,10 +138,12 @@ public class GalleryGameManager : MonoBehaviour
                 setWaitingText = true;
                 uiController.SetWaitingText();
             }
+            LobbyController.Instance.Rejoin(ExampleManager.Instance.Avatar.ToString());
         }
         else
         {
             uiController.AllPlayersHaveJoined();
+            CancelInvoke();
         }
     }
 
