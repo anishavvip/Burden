@@ -75,6 +75,7 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            TextToSpeech.Instance.StopAudio();
             connectingCover.SetActive(true);
             string oppositeRoomId = GetOppositeID(avatar);
             if (rooms != null)

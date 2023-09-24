@@ -178,7 +178,6 @@ GameObject:
   - component: {fileID: 1292218146305834874}
   - component: {fileID: 814155422368249395}
   - component: {fileID: 6932101863039980089}
-  - component: {fileID: -8516505476609849267}
   - component: {fileID: -1141060494451379617}
   m_Layer: 0
   m_Name: ToothbrushCup_Filled
@@ -276,19 +275,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.123842195, y: 0.15866527, z: 0.123842195}
   m_Center: {x: 0.0000000037252903, y: 0.079332665, z: -0.0000000055879354}
---- !u!114 &-8516505476609849267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970197297895852635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5344497ceaf0cf4494b70377b09eae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwAmount: 0
 --- !u!54 &-1141060494451379617
 Rigidbody:
   m_ObjectHideFlags: 0

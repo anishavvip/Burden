@@ -8,11 +8,11 @@ public class DragRigidbody : MonoBehaviour
 {
     float force = 600;
     float damping = 6;
-    float distance = 15;
+    float distance = 10;
     Transform jointTrans;
     float dragDepth;
     PlayerController player;
-    public Rigidbody Rigidbody;
+    [HideInInspector] public Rigidbody Rigidbody;
     bool isDrag = false;
 
     private void Awake()

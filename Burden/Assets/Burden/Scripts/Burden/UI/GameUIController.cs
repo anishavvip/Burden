@@ -11,16 +11,19 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField]
     private Button exitButton = null;
+    [SerializeField] Toggle audioToggle;
 
+    public void ToggleAudio()
+    {
+        AudioListener.volume = audioToggle.isOn ? 0 : 1;
+    }
     private void Start()
     {
+        AudioListener.volume = 1;
         waitingUI.SetActive(true);
         waitingText.text = "...";
     }
-    public void UpdatePlayerReadiness(bool showButton)
-    {
 
-    }
     public void AllPlayersHaveJoined()
     {
         waitingUI.SetActive(false);
@@ -30,19 +33,22 @@ public class GameUIController : MonoBehaviour
     {
         string text;
         if (ExampleManager.Instance.Avatar == Avatars.Mom)
-            text = $"{Avatars.Child},\n are you there?";
-        else 
-            text = $"{Avatars.Mom},\n are you there?";
+        {
+            text = $"{Avatars.Child},\nare you there?";
+
+            TextToSpeech.Instance.SpeakText(Avatars.Mom, text.Replace('\n', ' '));
+        }
+        else
+        {
+            text = $"{Avatars.Mom},\nare you there?";
+
+            TextToSpeech.Instance.SpeakText(Avatars.Child, text.Replace('\n', ' '));
+        }
         waitingText.text = text;
     }
     public void AllowExit(bool allowed)
     {
         exitButton.gameObject.SetActive(allowed);
-    }
-
-    public void ButtonOnReady()
-    {
-
     }
 
     public void ButtonOnExit()

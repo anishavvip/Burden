@@ -59,7 +59,13 @@ customMethods.setSyncInputs = function (
   const inputs = param[0];
   roomRef.broadcast("syncData", inputs);
 };
-
+customMethods.DoorBell = function (
+  roomRef: BurdenRoom,
+  client: Client,
+  request: any
+) {
+  roomRef.broadcast("DoorBell", {});
+};
 customMethods.syncAudio = function (
   roomRef: BurdenRoom,
   client: Client,
@@ -193,10 +199,7 @@ let waitingLogic = function (roomRef: BurdenRoom, deltaTime: number) {
  * @param {*} roomRef Reference to the room
  * @param {*} options Options of the room from the client when it was created
  */
-exports.InitializeLogic = function (
-  roomRef: BurdenRoom,
-  options: any
-) {
+exports.InitializeLogic = function (roomRef: BurdenRoom, options: any) {
   roomOptions = options;
   // Set initial game state to waiting for all clients to be ready
   setRoomAttribute(roomRef, CurrentState, ServerGameState.Waiting);
@@ -208,10 +211,7 @@ exports.InitializeLogic = function (
  * @param {*} roomRef Reference to the room
  * @param {*} deltaTime Server delta time in milliseconds
  */
-exports.ProcessLogic = function (
-  roomRef: BurdenRoom,
-  deltaTime: number
-) {
+exports.ProcessLogic = function (roomRef: BurdenRoom, deltaTime: number) {
   gameLoop(roomRef, deltaTime / 1000); // convert deltaTime from ms to seconds
 };
 

@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 5690058634856219910}
   - component: {fileID: 3672558698901893681}
   - component: {fileID: 741172859607606631}
-  - component: {fileID: 3729623131856487493}
-  - component: {fileID: 8269110317284031848}
   m_Layer: 0
   m_Name: Plate_Apt_01_Stacked
   m_TagString: Untagged
@@ -135,29 +133,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3729623131856487493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8933469904465650184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5344497ceaf0cf4494b70377b09eae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwAmount: 0
---- !u!114 &8269110317284031848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8933469904465650184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5344497ceaf0cf4494b70377b09eae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwAmount: 0

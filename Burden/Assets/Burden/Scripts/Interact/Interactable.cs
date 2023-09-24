@@ -24,7 +24,11 @@ public class Interactable : MonoBehaviour
     }
     void Start()
     {
-        GetComponent<Rigidbody>().isKinematic = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Destroy(rb);
+        }
         animator = GetComponent<Animator>();
         open = false;
         player = ExampleManager.GetPlayer();
@@ -67,7 +71,7 @@ public class Interactable : MonoBehaviour
         ItemDetails itemDetails = new ItemDetails();
         itemDetails.name = ExampleManager.Instance.Avatar.ToString();
         itemDetails.itemName = gameObject.name;
-        
+
         ExampleManager.CustomServerMethod("itemInteract", new object[] { itemDetails });
     }
 }

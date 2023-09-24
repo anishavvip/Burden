@@ -2,6 +2,7 @@
 using Colyseus.Schema;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,7 +57,6 @@ public class GalleryGameManager : MonoBehaviour
     {
         ExampleRoomController.onAddNetworkEntity += OnNetworkAdd;
         ExampleRoomController.onRemoveNetworkEntity += OnNetworkRemove;
-        ExampleRoomController.onBeginRound += OnBeginRound;
         ExampleRoomController.onRemoveRoom += OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged += OnUserStateChanged;
 
@@ -68,25 +68,11 @@ public class GalleryGameManager : MonoBehaviour
     {
         ExampleRoomController.onAddNetworkEntity -= OnNetworkAdd;
         ExampleRoomController.onRemoveNetworkEntity -= OnNetworkRemove;
-        ExampleRoomController.onBeginRound -= OnBeginRound;
         ExampleRoomController.onRemoveRoom -= OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged -= OnUserStateChanged;
     }
 
-    private void OnBeginRound()
-    {
-        StartCoroutine(DelayedRoundBegin());
-    }
-
-    private IEnumerator DelayedRoundBegin()
-    {
-        yield return new WaitForSeconds(1);
-        _countDownString = "";
-        _showCountdown = false;
-        uiController.UpdatePlayerReadiness(false);
-    }
-
-    private void HelpJoinPlayer()
+    private async void HelpJoinPlayer()
     {
         if (maxEntities != ExampleManager.Instance._roomController.Entities.Count)
         {
@@ -96,6 +82,7 @@ public class GalleryGameManager : MonoBehaviour
                 uiController.SetWaitingText();
             }
             Debug.Log("trying to rejoin");
+            await Task.Delay(1500);
             ExampleManager.Instance.GetAvailableRoomsToRejoin();
         }
         else
@@ -138,11 +125,6 @@ public class GalleryGameManager : MonoBehaviour
         if (attributeChanges.TryGetValue("readyState", out string readyState))
         {
             userReadyState = readyState;
-
-            if (AwaitingAnyPlayerReady())
-            {
-                uiController.UpdatePlayerReadiness(AwaitingPlayerReady());
-            }
         }
     }
 
@@ -233,7 +215,6 @@ public class GalleryGameManager : MonoBehaviour
 
     public void PlayerReadyToPlay()
     {
-        uiController.UpdatePlayerReadiness(false);
         ExampleManager.NetSend("setAttribute",
             new ExampleAttributeUpdateMessage
             {
@@ -244,7 +225,6 @@ public class GalleryGameManager : MonoBehaviour
         PlayerController player = GetPlayerView(ExampleManager.Instance.CurrentNetworkedEntity.id);
         if (player != null)
         {
-            //player.SetPause(false);
             player.UpdateReadyState(true);
         }
     }
@@ -283,7 +263,8 @@ public class GalleryGameManager : MonoBehaviour
             {
                 pc.enabled = false; //Stop all the messages and updates
             }
-
+            AudioListener.volume = 1.0f;
+            TextToSpeech.Instance.StopAudio();
             ExampleManager.Instance.LeaveAllRooms(() => { SceneManager.LoadScene("Lobby"); });
         }
     }

@@ -408,6 +408,8 @@ public class ExampleRoomController
         });
 
         //Custom game logic
+
+        _room.OnMessage<ShootingGalleryMessage>("DoorBell", msg => { ExampleManager.GetPlayer().IntroScene.PlayDoorRing(); });
         _room.OnMessage<AudioDetails>("syncAudio", details => { onSyncAudio?.Invoke(details); });
         _room.OnMessage<ShootingGalleryMessage>("removeRoom", msg => { onRemoveRoom?.Invoke(); });
         _room.OnMessage<InputSyncData>("syncData", input => { onSyncData?.Invoke(input); });

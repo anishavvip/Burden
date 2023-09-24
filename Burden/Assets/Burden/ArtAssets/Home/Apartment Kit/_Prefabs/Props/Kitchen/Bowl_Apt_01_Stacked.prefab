@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7468585074754255991}
   - component: {fileID: 7813560542814170863}
   - component: {fileID: 614531477272417548}
-  - component: {fileID: -8771484677714136351}
   m_Layer: 0
   m_Name: Bowl_Apt_01_Stacked
   m_TagString: Untagged
@@ -134,16 +133,3 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &-8771484677714136351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4035178881683024354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5344497ceaf0cf4494b70377b09eae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwAmount: 0

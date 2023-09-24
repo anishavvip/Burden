@@ -3,8 +3,8 @@ using LucidSightTools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Windows;
 using Input = UnityEngine.Input;
 using Random = UnityEngine.Random;
 
@@ -56,10 +56,10 @@ public class PlayerController : ExampleNetworkedEntityView
 
     private Vector3 playerVelocity;
 
-    public string userName;
+    [HideInInspector] public string userName;
 
-    public bool isReady = false;
-    public InputSyncData SyncData;
+    [HideInInspector] public bool isReady = false;
+    [HideInInspector] public InputSyncData SyncData;
 
     private Animator _animator;
     private bool _hasAnimator;
@@ -81,7 +81,8 @@ public class PlayerController : ExampleNetworkedEntityView
 
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     public float FallTimeout = 0.15f;
-    public bool hasGameBegun = false;
+    [HideInInspector] public bool hasGameBegun = false;
+    public IntroScene IntroScene;
 
     protected override void Start()
     {
@@ -108,6 +109,7 @@ public class PlayerController : ExampleNetworkedEntityView
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+
     }
 
     private void OnEnable()
@@ -135,10 +137,12 @@ public class PlayerController : ExampleNetworkedEntityView
         }
     }
 
-    private void BeginRound()
+    private async void BeginRound()
     {
         SetPause(false);
         hasGameBegun = true;
+        await Task.Delay(1500);
+        IntroScene.Intro();
     }
 
     private void GetSyncData(InputSyncData input)

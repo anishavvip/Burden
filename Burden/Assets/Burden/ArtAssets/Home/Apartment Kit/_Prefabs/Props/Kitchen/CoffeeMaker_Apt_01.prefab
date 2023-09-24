@@ -95,8 +95,6 @@ GameObject:
   - component: {fileID: 7540935890306632125}
   - component: {fileID: 3783821017270522848}
   - component: {fileID: 4543614444892883238}
-  - component: {fileID: -2655237437964828346}
-  - component: {fileID: -5546108422605471463}
   m_Layer: 0
   m_Name: CoffeeMaker_Apt_01
   m_TagString: Untagged
@@ -194,46 +192,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.29898915, y: 0.44365445, z: 0.25346828}
   m_Center: {x: 0, y: 0.22182722, z: -0.000000007450581}
---- !u!114 &-2655237437964828346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2640015100330053026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5344497ceaf0cf4494b70377b09eae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwAmount: 0
---- !u!54 &-5546108422605471463
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2640015100330053026}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 5
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 1
 --- !u!1 &3939678803046882080
 GameObject:
   m_ObjectHideFlags: 0
