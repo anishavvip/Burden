@@ -7,7 +7,7 @@ import {
 
 const logger = require("../helpers/logger");
 
-export class ShootingGalleryRoom extends Room<ColyseusRoomState> {
+export class BurdenRoom extends Room<ColyseusRoomState> {
   clientEntities = new Map<string, string[]>();
   serverTime: number = 0;
   customMethodController: any = null;

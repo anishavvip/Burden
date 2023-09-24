@@ -338,6 +338,7 @@ public class PlayerController : ExampleNetworkedEntityView
     }
     private void TakeInputs()
     {
+        if (!hasGameBegun) return;
         if (prefabName != "")
             SyncData.name = prefabName;
 
@@ -482,6 +483,7 @@ public class PlayerController : ExampleNetworkedEntityView
 
     private void OnFootstep(AnimationEvent animationEvent)
     {
+        if (!hasGameBegun) return;
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
             if (FootstepAudioClips.Length > 0)
@@ -498,6 +500,7 @@ public class PlayerController : ExampleNetworkedEntityView
 
     private void OnLand(AnimationEvent animationEvent)
     {
+        if (!hasGameBegun) return;
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
             AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_characterController.center), FootstepAudioVolume);

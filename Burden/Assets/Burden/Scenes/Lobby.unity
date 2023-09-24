@@ -1277,9 +1277,6 @@ MonoBehaviour:
   container: {fileID: 1772346346}
   connectingCover: {fileID: 1237206452}
   errorConnectingCover: {fileID: 1864903736}
-  minRequiredPlayers: 1
-  numberOfTargetRows: 5
-  roomName: ShootingGalleryRoom
 --- !u!1 &845619773
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 import { Client } from "colyseus";
 import { ColyseusRoomState } from "../schema/ColyseusRoomState";
-import { ShootingGalleryRoom } from "../ShootingGalleryRoom";
+import { BurdenRoom } from "../BurdenRoom";
 
 const logger = require("../../helpers/logger");
 
@@ -24,7 +24,7 @@ let roomOptions: any;
  * @param {*} roomRef Reference to the Room object
  * @param {*} deltaTime Expects deltaTime to be in seconds, not milliseconds
  */
-let gameLoop = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
+let gameLoop = function (roomRef: BurdenRoom, deltaTime: number) {
   // Update the game state
   switch (getGameState(roomRef, CurrentState)) {
     case ServerGameState.None:
@@ -51,7 +51,7 @@ let gameLoop = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
  */
 const customMethods: any = {};
 customMethods.setSyncInputs = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
@@ -61,7 +61,7 @@ customMethods.setSyncInputs = function (
 };
 
 customMethods.syncAudio = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
@@ -71,7 +71,7 @@ customMethods.syncAudio = function (
 };
 
 customMethods.itemInteract = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
@@ -81,7 +81,7 @@ customMethods.itemInteract = function (
 };
 
 customMethods.itemGrab = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
@@ -119,7 +119,7 @@ let checkIfUsersReady = function (users: ColyseusRoomState["networkedUsers"]) {
  * @param {*} value The value of the attribute you want to set
  */
 let setRoomAttribute = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   key: string,
   value: string
 ) {
@@ -130,7 +130,7 @@ let setRoomAttribute = function (
  * @param {*} roomRef Reference to the room
  * @param {*} newState The new state to move to
  */
-let moveToState = function (roomRef: ShootingGalleryRoom, newState: string) {
+let moveToState = function (roomRef: BurdenRoom, newState: string) {
   // LastState = CurrentState
   setRoomAttribute(roomRef, LastState, getGameState(roomRef, CurrentState));
 
@@ -142,7 +142,7 @@ let moveToState = function (roomRef: ShootingGalleryRoom, newState: string) {
  * @param {*} roomRef Reference to the room
  * @param {*} gameState Key for which game state you want, either the Current game state for the Last game state
  */
-let getGameState = function (roomRef: ShootingGalleryRoom, gameState: string) {
+let getGameState = function (roomRef: BurdenRoom, gameState: string) {
   return roomRef.state.attributes.get(gameState);
 };
 
@@ -156,7 +156,7 @@ let getGameState = function (roomRef: ShootingGalleryRoom, gameState: string) {
  * @param {*} roomRef Reference to the room
  * @param {*} deltaTime Server delta time in seconds
  */
-let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
+let waitingLogic = function (roomRef: BurdenRoom, deltaTime: number) {
   let playersReady = false;
   // Switch on LastState since the waiting logic gets used in multiple places
   // Check if minimum # of clients to start a round exist
@@ -194,7 +194,7 @@ let waitingLogic = function (roomRef: ShootingGalleryRoom, deltaTime: number) {
  * @param {*} options Options of the room from the client when it was created
  */
 exports.InitializeLogic = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   options: any
 ) {
   roomOptions = options;
@@ -209,7 +209,7 @@ exports.InitializeLogic = function (
  * @param {*} deltaTime Server delta time in milliseconds
  */
 exports.ProcessLogic = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   deltaTime: number
 ) {
   gameLoop(roomRef, deltaTime / 1000); // convert deltaTime from ms to seconds
@@ -222,7 +222,7 @@ exports.ProcessLogic = function (
  * @param {*} request Request object holding any data from the client
  */
 exports.ProcessMethod = function (
-  roomRef: ShootingGalleryRoom,
+  roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
@@ -241,5 +241,5 @@ exports.ProcessMethod = function (
 /**
  * Process report of a user leaving.
  */
-exports.ProcessUserLeft = function (roomRef: ShootingGalleryRoom) {};
+exports.ProcessUserLeft = function (roomRef: BurdenRoom) {};
 //====================================== END Room accessed functions

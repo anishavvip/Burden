@@ -24,11 +24,6 @@ public class GalleryGameManager : MonoBehaviour
     {
         NONE,
         WAITING,
-        WAITINGFOROTHERS,
-        SENDTARGETS,
-        BEGINROUND,
-        SIMULATEROUND,
-        ENDROUND
     }
 
     private eGameState currentGameState;
@@ -44,6 +39,7 @@ public class GalleryGameManager : MonoBehaviour
         }
 
         Instance = this;
+        uiController.gameObject.SetActive(true);
     }
 
     private IEnumerator Start()
@@ -60,12 +56,7 @@ public class GalleryGameManager : MonoBehaviour
     {
         ExampleRoomController.onAddNetworkEntity += OnNetworkAdd;
         ExampleRoomController.onRemoveNetworkEntity += OnNetworkRemove;
-        ExampleRoomController.onGotTargetLineUp += GotNewTargetLineUp;
-
-        ExampleRoomController.onRoomStateChanged += OnRoomStateChanged;
-        ExampleRoomController.onBeginRoundCountDown += OnBeginRoundCountDown;
         ExampleRoomController.onBeginRound += OnBeginRound;
-        ExampleRoomController.onRoundEnd += OnRoundEnd;
         ExampleRoomController.onRemoveRoom += OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged += OnUserStateChanged;
 
@@ -77,21 +68,9 @@ public class GalleryGameManager : MonoBehaviour
     {
         ExampleRoomController.onAddNetworkEntity -= OnNetworkAdd;
         ExampleRoomController.onRemoveNetworkEntity -= OnNetworkRemove;
-        ExampleRoomController.onGotTargetLineUp -= GotNewTargetLineUp;
-
-        ExampleRoomController.onRoomStateChanged -= OnRoomStateChanged;
-        ExampleRoomController.onBeginRoundCountDown -= OnBeginRoundCountDown;
         ExampleRoomController.onBeginRound -= OnBeginRound;
-        ExampleRoomController.onRoundEnd -= OnRoundEnd;
         ExampleRoomController.onRemoveRoom -= OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged -= OnUserStateChanged;
-    }
-
-    private void OnBeginRoundCountDown()
-    {
-        _showCountdown = true;
-        uiController.AllowExit(false);
-        uiController.UpdatePlayerReadiness(false);
     }
 
     private void OnBeginRound()
@@ -107,26 +86,6 @@ public class GalleryGameManager : MonoBehaviour
         uiController.UpdatePlayerReadiness(false);
     }
 
-    private void OnRoundEnd(Winner winner)
-    {
-        PlayerController player = GetPlayerView(ExampleManager.Instance.CurrentNetworkedEntity.id);
-        if (player != null)
-        {
-            player.UpdateReadyState(false);
-        }
-        string winnerMessage = GetWinningMessage(winner);
-        StartCoroutine(DelayedRoundEnd());
-    }
-
-    private IEnumerator DelayedRoundEnd()
-    {
-        yield return new WaitForSeconds(5);
-        if ((currentGameState == eGameState.WAITING || currentGameState == eGameState.WAITINGFOROTHERS) && lastGameState == eGameState.ENDROUND)
-        {
-            uiController.UpdatePlayerReadiness(AwaitingPlayerReady());
-            uiController.AllowExit(true);
-        }
-    }
     private void HelpJoinPlayer()
     {
         if (maxEntities != ExampleManager.Instance._roomController.Entities.Count)
@@ -174,96 +133,6 @@ public class GalleryGameManager : MonoBehaviour
         return winnerMessage;
     }
 
-    private eGameState TranslateGameState(string gameState)
-    {
-        switch (gameState)
-        {
-            case "Waiting":
-                {
-                    PlayerController player = GetPlayerView(ExampleManager.Instance.CurrentNetworkedEntity.id);
-                    if (player != null)
-                    {
-                        return player.isReady ? eGameState.WAITINGFOROTHERS : eGameState.WAITING;
-                    }
-
-                    return eGameState.WAITING;
-                }
-            case "SendTargets":
-                {
-                    return eGameState.SENDTARGETS;
-                }
-            case "BeginRound":
-                {
-                    return eGameState.BEGINROUND;
-                }
-            case "SimulateRound":
-                {
-                    return eGameState.SIMULATEROUND;
-                }
-            case "EndRound":
-                {
-                    return eGameState.ENDROUND;
-                }
-            default:
-                return eGameState.NONE;
-        }
-    }
-
-    private void OnRoomStateChanged(MapSchema<string> attributes)
-    {
-        if (_showCountdown && attributes.ContainsKey("countDown"))
-        {
-            _countDownString = attributes["countDown"];
-        }
-
-        if (attributes.ContainsKey("currentGameState"))
-        {
-            eGameState nextState = TranslateGameState(attributes["currentGameState"]);
-            currentGameState = nextState;
-        }
-
-        if (attributes.ContainsKey("lastGameState"))
-        {
-            eGameState nextState = TranslateGameState(attributes["lastGameState"]);
-            lastGameState = nextState;
-        }
-    }
-
-    private bool IsSafeStateTransition(eGameState fromState, eGameState nextState)
-    {
-        if (fromState == nextState)
-            return true;
-
-        switch (fromState)
-        {
-            case eGameState.WAITING:
-                {
-                    return nextState == eGameState.WAITINGFOROTHERS || nextState == eGameState.SENDTARGETS;
-                }
-            case eGameState.WAITINGFOROTHERS:
-                {
-                    return nextState == eGameState.SENDTARGETS || nextState == eGameState.BEGINROUND;
-                }
-            case eGameState.BEGINROUND:
-                {
-                    return nextState == eGameState.SIMULATEROUND || nextState == eGameState.ENDROUND;
-                }
-            case eGameState.SIMULATEROUND:
-                {
-                    return nextState == eGameState.ENDROUND || nextState == eGameState.WAITING || nextState == eGameState.WAITINGFOROTHERS;
-                }
-            case eGameState.ENDROUND:
-                {
-                    return nextState == eGameState.WAITING || nextState == eGameState.WAITINGFOROTHERS ||
-                           nextState == eGameState.SENDTARGETS;
-                }
-            default:
-                {
-                    return true;
-                }
-        }
-    }
-
     private void OnUserStateChanged(MapSchema<string> attributeChanges)
     {
         if (attributeChanges.TryGetValue("readyState", out string readyState))
@@ -304,21 +173,12 @@ public class GalleryGameManager : MonoBehaviour
     private bool AwaitingAnyPlayerReady()
     {
         //Returns true if the server is waiting for anyone to be ready
-        return currentGameState == eGameState.WAITING || currentGameState == eGameState.WAITINGFOROTHERS;
+        return currentGameState == eGameState.WAITING;
     }
 
     private void OnNetworkAdd(ExampleNetworkedEntity entity)
     {
-        //if (ExampleManager.Instance.HasEntityView(entity.id))
-        //{
-        //    LSLog.LogImportant("View found! For " + entity.id);
-        //    scoreboardController.EntityAdded(entity); //Already exists in scene which means it has been initialized
-        //}
-        //else
-        //{
-        //    LSLog.LogImportant("No View found for " + entity.id);
-        //    CreateView(entity);
-        //}
+      
     }
 
     private void OnNetworkRemove(ExampleNetworkedEntity entity, ColyseusNetworkedEntityView view)
@@ -369,16 +229,6 @@ public class GalleryGameManager : MonoBehaviour
         OnQuitGame();
         if (view == null) return;
         view.SendMessage("OnEntityRemoved", SendMessageOptions.DontRequireReceiver);
-    }
-
-    private void GotNewTargetLineUp(ShootingGalleryNewTargetLineUpMessage targetLineUp)
-    {
-
-    }
-
-    public void RegisterTargetKill(string entityID, string targetID)
-    {
-        ExampleManager.CustomServerMethod("scoreTarget", new object[] { entityID, targetID });
     }
 
     public void PlayerReadyToPlay()

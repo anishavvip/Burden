@@ -26,6 +26,7 @@ public class DragRigidbody : MonoBehaviour
 
     private void SendDataToServer()
     {
+        if (!player.hasGameBegun) return;
         GrabDetails SyncData = new GrabDetails();
         SyncData.name = ExampleManager.Instance.Avatar.ToString();
 

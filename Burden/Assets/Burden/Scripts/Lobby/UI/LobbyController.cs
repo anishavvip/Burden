@@ -19,11 +19,8 @@ public class LobbyController : MonoBehaviour
     private GameObject connectingCover = null;
     [SerializeField]
     private GameObject errorConnectingCover = null;
-    public int minRequiredPlayers = 2;
-    public int numberOfTargetRows = 5;
-
     //Variables to initialize the room controller
-    public string roomName = "ShootingGalleryRoom";
+    string roomName = "BurdenRoom";
     ColyseusRoomAvailable[] rooms;
 
     private void Awake()
@@ -46,9 +43,7 @@ public class LobbyController : MonoBehaviour
 
         Dictionary<string, object> roomOptions = new Dictionary<string, object>
         {
-            ["logic"] = "shootingGallery", //The name of our custom logic file
-            ["minReqPlayers"] = minRequiredPlayers.ToString(),
-            ["numberOfTargetRows"] = numberOfTargetRows.ToString()
+            ["logic"] = "Burden", //The name of our custom logic file
         };
 
         ExampleManager.Instance.Initialize(roomName, roomOptions);

@@ -21,11 +21,6 @@ public class ExampleRoomController
     public delegate void OnRemoveRoom();
     public delegate void OnSyncData(InputSyncData input);
     public delegate void OnBeginRound();
-
-    public delegate void OnBeginRoundCountDown();
-
-    public delegate void OnGotTargetLineUp(ShootingGalleryNewTargetLineUpMessage targetLineup);
-
     // Network Events
     //==========================
     /// <summary>
@@ -42,11 +37,6 @@ public class ExampleRoomController
 
     //Custom game delegate functions
     public delegate void OnRoomStateChanged(MapSchema<string> attributes);
-
-    public delegate void OnRoundEnd(Winner winner);
-
-    public delegate void OnScoreUpdate(ShootingGalleryScoreUpdateMessage update);
-
     public delegate void OnUserStateChanged(MapSchema<string> changes);
 
     /// <summary>
@@ -242,11 +232,7 @@ public class ExampleRoomController
     public static event OnRemoveRoom onRemoveRoom;
     public static event OnSyncData onSyncData;
     public static event OnRoomStateChanged onRoomStateChanged;
-    public static event OnGotTargetLineUp onGotTargetLineUp;
-    public static event OnScoreUpdate onScoreUpdate;
-    public static event OnBeginRoundCountDown onBeginRoundCountDown;
     public static event OnBeginRound onBeginRound;
-    public static event OnRoundEnd onRoundEnd;
     public static event OnUserStateChanged OnCurrentUserStateChanged;
 
     /// <summary>
@@ -425,18 +411,7 @@ public class ExampleRoomController
         _room.OnMessage<AudioDetails>("syncAudio", details => { onSyncAudio?.Invoke(details); });
         _room.OnMessage<ShootingGalleryMessage>("removeRoom", msg => { onRemoveRoom?.Invoke(); });
         _room.OnMessage<InputSyncData>("syncData", input => { onSyncData?.Invoke(input); });
-        _room.OnMessage<ShootingGalleryNewTargetLineUpMessage>("newTargetLineUp",
-            targets => { onGotTargetLineUp?.Invoke(targets); });
-
-        _room.OnMessage<ShootingGalleryScoreUpdateMessage>("onScoreUpdate",
-            scoreUpdate => { onScoreUpdate?.Invoke(scoreUpdate); });
-
-        _room.OnMessage<ShootingGalleryMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });
-
         _room.OnMessage<ShootingGalleryMessage>("beginRound", msg => { onBeginRound?.Invoke(); });
-
-        _room.OnMessage<ShootingGalleryRoundEndMessage>("onRoundEnd", winner => { onRoundEnd?.Invoke(winner.winner); });
-
         //========================
         Debug.Log($"Adding OnAdd/OnRemove callbacks for all {_room.State.networkedEntities.Count} entities! ***");
         _room.State.networkedEntities.OnAdd += OnEntityAdd;
