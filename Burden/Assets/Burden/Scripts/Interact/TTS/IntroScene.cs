@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class IntroScene : MonoBehaviour
 {
@@ -8,13 +7,14 @@ public class IntroScene : MonoBehaviour
     public string introSpeech, doorBellSpeech;
     [SerializeField] AudioClip doorBell;
     [SerializeField] AudioSource audioSource;
-    PlayerController player, opponent;
+    PlayerController player;
     public Avatars avatar;
     int rings = 2;
+    [SerializeField] GameObject parcel;
 
     private void Start()
     {
-        opponent = ExampleManager.GetOpponent();
+        parcel.SetActive(false);
         player = ExampleManager.GetPlayer();
     }
     public void Intro()
@@ -32,6 +32,7 @@ public class IntroScene : MonoBehaviour
     }
     public async void PlayDoorRing()
     {
+        parcel.SetActive(true);
         for (int i = 0; i < rings; i++)
         {
             audioSource.PlayOneShot(doorBell);
@@ -50,7 +51,7 @@ public class IntroScene : MonoBehaviour
         {
             if (avatar == Avatars.Mom)
             {
-                TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech);
+                TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech, delegate { GalleryGameManager.Instance.mom.isIntroDone = true; });
             }
         }
     }
@@ -61,7 +62,7 @@ public class IntroScene : MonoBehaviour
         if (avatar.ToString() == player.prefabName)
         {
             if (avatar == Avatars.Child)
-                TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech);
+                TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech, delegate { GalleryGameManager.Instance.child.isIntroDone = true; });
         }
     }
 }

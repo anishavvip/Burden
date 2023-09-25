@@ -2303,6 +2303,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7d7ff9977d1634a8c361f032ea9255, type: 3}
+--- !u!1001 &2394023594600285589
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6133916894014081694, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_Name
+      value: BG music
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447739257953797089, guid: cd8191cfe15105b4aaeed40cba7cc3f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd8191cfe15105b4aaeed40cba7cc3f6, type: 3}
 --- !u!1001 &7279797005039385244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2361,6 +2429,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4273409819148112592, guid: 429f0364738096f498ce540111f0aa7b,
+        type: 3}
+      propertyPath: dummyText
+      value: "Oh, it looks like the delivery has <e1>arrived!</e1> \r\n<br>\r\n<v1>I've
+        locked my daughter's room as usual,</v1>\r\n<br>\r\n and need to <e1>grab
+        the package,</e1> before she starts <e1>complaining</e1>\r\n<v1>about the
+        </v1><e1>missing university letters.</e1> \r\n<br>\r\nLittle does she know
+        that,\r\n<br>\r\n I've been <e1>disposing of those letters.</e1>\r\n<br>\r\n<v2>Wait
+        a second, \r\n<br>\r\nI can't find the second spare key.</v2>\r\nI must have
+        <e1>dropped it in her room.</e1>\r\n<br>\r\n<br>\r\n<v1>I need to hide this
+        package quickly!</v1>"
+      objectReference: {fileID: 0}
     - target: {fileID: 7612158229200700930, guid: 429f0364738096f498ce540111f0aa7b,
         type: 3}
       propertyPath: m_Name
@@ -2382,3 +2462,4 @@ SceneRoots:
   - {fileID: 2386715910065713182}
   - {fileID: 139375192}
   - {fileID: 7279797005039385244}
+  - {fileID: 2394023594600285589}

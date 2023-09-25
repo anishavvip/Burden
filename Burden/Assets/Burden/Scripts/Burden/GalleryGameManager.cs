@@ -49,7 +49,7 @@ public class GalleryGameManager : MonoBehaviour
         {
             yield return 0;
         }
-        InvokeRepeating(nameof(HelpJoinPlayer), 1, 2f);
+        InvokeRepeating(nameof(HelpJoinPlayer), 1, 1f);
     }
 
     //Subscribe to messages that will be sent from the server
@@ -81,8 +81,8 @@ public class GalleryGameManager : MonoBehaviour
                 setWaitingText = true;
                 uiController.SetWaitingText();
             }
-            Debug.Log("trying to rejoin");
-            await Task.Delay(1500);
+
+            await Task.Delay((int)(1000 * Random.value) + 1);
             ExampleManager.Instance.GetAvailableRoomsToRejoin();
         }
         else
@@ -160,7 +160,7 @@ public class GalleryGameManager : MonoBehaviour
 
     private void OnNetworkAdd(ExampleNetworkedEntity entity)
     {
-      
+
     }
 
     private void OnNetworkRemove(ExampleNetworkedEntity entity, ColyseusNetworkedEntityView view)

@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5562377326249760660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 27.76}
-  m_SizeDelta: {x: 1630.3, y: 68}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 9.950012}
+  m_SizeDelta: {x: -18, y: 68}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5031718860454153682
 CanvasRenderer:
@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 275328922344064339}
   - component: {fileID: 4273409819148112592}
   - component: {fileID: 8829380744298401823}
+  - component: {fileID: 7520964012053740535}
   m_Layer: 0
   m_Name: TTS
   m_TagString: Untagged
@@ -397,24 +398,18 @@ MonoBehaviour:
     speaker: {fileID: 1737787338417062362}
     intro:
     - Being a mom rocks!
-    - Mom life is my life.
     - I'm a proud mom.
-    - Momming is my thing.
     - Officially in the 'Mom Squad'.
     - Mom by day, ninja by night.
     - Surviving parenthood one coffee at a time.
-    - I've mastered the art of 'mommy magic.'
   child:
     speaker: {fileID: 1872457374869706065}
     intro:
     - I'm still a kid.
     - I'm a mini-adult in training.
-    - I'm the boss of my teddy bears.
     - I'm still perfecting my grown-up act.
     - "\rI'm a kid, no kidding."
     - I'm a mini-me.
-    - I'm a tiny human.
-    - I'm still in the kiddo club.
   speechText: {fileID: 9080258854300222791}
 --- !u!82 &8829380744298401823
 AudioSource:
@@ -512,3 +507,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7520964012053740535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612158229200700930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8038472d123394dbf62ab8ca808986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

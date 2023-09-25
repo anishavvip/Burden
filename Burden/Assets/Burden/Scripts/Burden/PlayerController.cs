@@ -17,6 +17,7 @@ public enum AudioType
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : ExampleNetworkedEntityView
 {
+    [SerializeField] GameObject myBody;
     [HideInInspector] public DragRigidbody DragRigidbody = null;
     Vector3 initialPos = Vector3.zero;
     private CharacterController _characterController;
@@ -83,6 +84,8 @@ public class PlayerController : ExampleNetworkedEntityView
     public float FallTimeout = 0.15f;
     [HideInInspector] public bool hasGameBegun = false;
     public IntroScene IntroScene;
+    public bool isIntroDone = false;
+    public bool didPlayerTryUnlocking = false;
 
     protected override void Start()
     {
@@ -91,25 +94,26 @@ public class PlayerController : ExampleNetworkedEntityView
         _hasAnimator = TryGetComponent(out _animator);
         if (ExampleManager.Instance.Avatar.ToString() == prefabName)
         {
+            myBody.gameObject.SetActive(false);
             headRoot.gameObject.SetActive(true);
             cam.m_Priority = 11;
         }
         else
         {
+            myBody.gameObject.SetActive(true);
             headRoot.gameObject.SetActive(false);
             cam.m_Priority = 10;
         }
         userName = string.Empty;
         _characterController = GetComponent<CharacterController>();
         SetPause(true);
-        StartCoroutine("WaitForConnect");
+        StartCoroutine(nameof(WaitForConnect));
 
         AssignAnimationIDs();
 
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
-
     }
 
     private void OnEnable()

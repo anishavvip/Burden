@@ -1,13 +1,15 @@
 ﻿using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    float range = 8f;
+    float range = 15f;
     bool open;
     Animator animator;
     PlayerController player;
+    public bool isLocked = false;
+    [HideInInspector] public int counter = 0;
+    [SerializeField] TriggeredSpeech TriggeredSpeech;
 
     IEnumerator opening()
     {
@@ -32,8 +34,12 @@ public class Interactable : MonoBehaviour
         animator = GetComponent<Animator>();
         open = false;
         player = ExampleManager.GetPlayer();
+        if (player.prefabName == Avatars.Mom.ToString())
+        {
+            isLocked = false;
+        }
     }
-    public void Interact(PlayerController Player)
+    public void Interact(PlayerController Player, bool isLocked = false)
     {
         if (Player)
         {
@@ -44,7 +50,13 @@ public class Interactable : MonoBehaviour
                 {
                     if (Player.SyncData.rightClicked)
                     {
-                        StartCoroutine(opening());
+                        if (Player.isIntroDone && counter == 0)
+                        {
+                            TriggeredSpeechPlayer(Player);
+                        }
+
+                        if (!isLocked)
+                            StartCoroutine(opening());
                     }
                 }
                 else
@@ -53,7 +65,13 @@ public class Interactable : MonoBehaviour
                     {
                         if (Player.SyncData.rightClicked)
                         {
-                            StartCoroutine(closing());
+                            if (Player.isIntroDone && counter == 0)
+                            {
+                                TriggeredSpeechPlayer(Player);
+                            }
+
+                            if (!isLocked)
+                                StartCoroutine(closing());
                         }
                     }
 
@@ -63,11 +81,26 @@ public class Interactable : MonoBehaviour
         }
     }
 
+    private void TriggeredSpeechPlayer(PlayerController Player)
+    {
+        if (TriggeredSpeech != null)
+        {
+            if (TriggeredSpeech.speechCompleted)
+            {
+                if (Player.prefabName == Avatars.Child.ToString())
+                    Player.didPlayerTryUnlocking = true;
+                counter++;
+                TriggeredSpeech.Speech(Player.prefabName);
+            }
+        }
+    }
+
     private void OnMouseOver()
     {
         if (!player.hasGameBegun) return;
-        Interact(player);
 
+        Interact(player, isLocked);
+        if (isLocked) return;
         ItemDetails itemDetails = new ItemDetails();
         itemDetails.name = ExampleManager.Instance.Avatar.ToString();
         itemDetails.itemName = gameObject.name;

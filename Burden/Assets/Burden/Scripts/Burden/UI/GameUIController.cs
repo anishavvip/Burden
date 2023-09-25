@@ -12,25 +12,31 @@ public class GameUIController : MonoBehaviour
     [SerializeField]
     private Button exitButton = null;
     [SerializeField] Toggle audioToggle;
-
+    public static bool toggledValue = false;
     public void ToggleAudio()
     {
-        AudioListener.volume = audioToggle.isOn ? 0 : 1;
+        if (audioToggle != null)
+        {
+            toggledValue = audioToggle.isOn;
+        }
+        AudioListener.volume = toggledValue ? 0 : 1;
     }
     private void Start()
     {
-        AudioListener.volume = 1;
+        audioToggle.isOn = toggledValue;
         waitingUI.SetActive(true);
         waitingText.text = "...";
     }
 
     public void AllPlayersHaveJoined()
     {
+        ToggleAudio();
         waitingUI.SetActive(false);
         GalleryGameManager.Instance.PlayerReadyToPlay();
     }
     public void SetWaitingText()
     {
+        ToggleAudio();
         string text;
         if (ExampleManager.Instance.Avatar == Avatars.Mom)
         {

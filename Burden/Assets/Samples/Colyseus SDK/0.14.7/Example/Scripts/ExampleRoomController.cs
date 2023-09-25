@@ -8,6 +8,7 @@ using GameDevWare.Serialization;
 using LucidSightTools;
 using NativeWebSocket;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 ///     Manages the rooms of a server connection.
@@ -515,6 +516,8 @@ public class ExampleRoomController
         {
             LSLog.LogError(ex.Message);
             LSLog.LogError("Failed to join room");
+            GalleryGameManager.Instance.OnQuitGame();
+            SceneManager.LoadScene("Lobby");
             //await CreateSpecificRoom(_client, roomName, roomId, onJoin);
         }
     }

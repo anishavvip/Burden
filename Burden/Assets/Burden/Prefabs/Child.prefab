@@ -24,14 +24,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74040819277375902}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.072200835, y: 0.010779411, z: -0.0004329063, w: 0.9973318}
-  m_LocalPosition: {x: 0, y: 1.8, z: 0.12}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.682, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4464872932617063889}
   m_Father: {fileID: 3919389608226324355}
-  m_LocalEulerAnglesHint: {x: -8.28, y: 1.249, z: -0.14}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &261101369382385871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1090,7 @@ Transform:
   - {fileID: 3950863836105177461}
   - {fileID: 1317148805043818570}
   - {fileID: 7150252206138111437}
+  - {fileID: 7485498717928747391}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &84423239116541775
@@ -1241,6 +1242,7 @@ MonoBehaviour:
     pos: {x: 0, y: 0, z: 0}
     vel: {x: 0, y: 0, z: 0}
     rot: {x: 0, y: 0, z: 0, w: 0}
+  myBody: {fileID: 6443654163269600168}
   DragRigidbody: {fileID: 0}
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
@@ -1288,7 +1290,9 @@ MonoBehaviour:
   JumpTimeout: 0.5
   FallTimeout: 0.15
   hasGameBegun: 0
-  IntroScene: {fileID: 0}
+  IntroScene: {fileID: 1508231372104520343}
+  isIntroDone: 0
+  didPlayerTryUnlocking: 0
 --- !u!95 &190143416984248977
 Animator:
   serializedVersion: 5
@@ -2425,6 +2429,159 @@ Transform:
   - {fileID: 9159957142589627337}
   m_Father: {fileID: 502672386677211432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8155633573749724375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7485498717928747391}
+  - component: {fileID: 1508231372104520343}
+  - component: {fileID: 723929368503378678}
+  m_Layer: 0
+  m_Name: Intro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7485498717928747391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155633573749724375}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.253, y: -5.08, z: -9.62}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3919389608226324355}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1508231372104520343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155633573749724375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05ac2be8d3da0b4390d9d0c222a0b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  introSpeech: "Why'd she <e1>drag</e1> us to this <v2>middle-of-nowhere</v2> place?
+    \n<br>\n<v1>I hate being alone</v1> and homeschooling is like; <e1>school without
+    friends.</e1> \n<v2><e1>Remember the neighbor thing? My mom went full drama queen.</e1></v2>\n<br>\n<v1>Now,
+    I'm just waiting for those university letters.</v1> \nEven though I <e1>aced
+    their tests</e1>, my mailbox is on <v2>vacation</v2>. \n<v2><e1>Can't wait for
+    university \u2013 where I'll party hard.</e1></v2>"
+  doorBellSpeech: "Did I miss the <e1>bell ring?</e1> \n<br>\nIt must be that <e1>university</e1>
+    letter at <v2>last!</v2>"
+  doorBell: {fileID: 8300000, guid: da9e8135ad7d9034d9136d8ecb4bd01f, type: 3}
+  audioSource: {fileID: 723929368503378678}
+  avatar: 1
+  parcel: {fileID: 0}
+--- !u!82 &723929368503378678
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155633573749724375}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8267909777244518178
 GameObject:
   m_ObjectHideFlags: 0
