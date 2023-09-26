@@ -1,17 +1,79 @@
+using System.Linq;
 using UnityEngine;
 
 public class DoorKey : MonoBehaviour
 {
+    [SerializeField]
+    Transform[] spawnPos;
     [SerializeField] Interactable door;
     [SerializeField] AudioClip doorOpen;
     PlayerController player;
     [TextAreaAttribute(1, 20)]
     public string speech, preSpeech;
+    bool gotPos = false;
+    string[] indices;
+    string spot;
 
     private void Start()
     {
         player = ExampleManager.GetPlayer();
+        if (player.prefabName == Avatars.Child.ToString())
+        {
+            int index = Random.Range(0, spawnPos.Length);
+            spot = PlayerPrefs.GetString("Spot");
+            if (spot != "")
+            {
+                indices = spot.Split('_');
+                if (indices.Length <= spawnPos.Length)
+                {
+                    while (gotPos == false)
+                    {
+                        int _index = Random.Range(0, spawnPos.Length);
+                        gotPos = Hide(_index);
+                    }
+                }
+                else
+                {
+                    PlayerPrefs.SetString("Spot", "");
+                    indices = new string[] { };
+                    spot = "";
+                    Hide(index);
+                }
+            }
+            else
+            {
+                Hide(index);
+            }
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
+
+    private bool Hide(int index)
+    {
+        if (indices != null)
+        {
+            foreach (var item in indices)
+            {
+                if (item != null)
+                {
+                    if (item.Equals(index.ToString()))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        transform.position = spawnPos[index].position;
+        transform.localRotation = spawnPos[index].localRotation;
+        PlayerPrefs.SetString("Spot", spot + "_" + index);
+
+        spot = PlayerPrefs.GetString("Spot");
+        return true;
+    }
+
     private void OnMouseOver()
     {
         if (player == null) return;
@@ -26,11 +88,11 @@ public class DoorKey : MonoBehaviour
                 TextToSpeech.Instance.StopAudio();
                 if (player.didPlayerTryUnlocking)
                 {
-                    TextToSpeech.Instance.SpeakText(Avatars.Child, speech);
+                    TextToSpeech.Instance.SpeakText(Avatars.Child, speech, false);
                 }
                 else
                 {
-                    TextToSpeech.Instance.SpeakText(Avatars.Child, preSpeech);
+                    TextToSpeech.Instance.SpeakText(Avatars.Child, preSpeech, false);
                 }
                 door.counter++;
                 door.isLocked = false;

@@ -1,10 +1,10 @@
 using ReadSpeaker;
 using System;
 using System.Collections;
-using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class TextToSpeech : MonoBehaviour
@@ -13,57 +13,58 @@ public class TextToSpeech : MonoBehaviour
     public class AvatarSpeech
     {
         public TTSSpeaker speaker;
-        [TextAreaAttribute(1, 2)]
+        [TextArea(1, 2)]
         public string[] intro;
     }
     int attemptMomCount = 0, attemptChildCount = 0;
     [SerializeField] AvatarSpeech mom, child;
     public static TextToSpeech Instance;
     [SerializeField] TextMeshProUGUI speechText;
-    WaitForSeconds _delayBetweenCharactersYieldInstruction;
-    int startIndex = 0;
-    bool isSpeaking = false;
-    [TextAreaAttribute(1, 20)]
+
+    [TextArea(1, 20)]
     public string dummyText;
+    [SerializeField] Image playSpeechIndicator;
+    int count = 0;
+    int startIndex = 0;
+    TTSSpeaker currentSpeaker;
+    Avatars currentAvatar;
+    Action action;
+    string[] speechToDisplayList;
+    string[] speechList;
+    [SerializeField] Sprite play, alert;
+    bool isDisappear;
 
-    public void StartTypeWriterOnText(TextMeshProUGUI textComponent, string stringToDisplay, Action action = null, float delayBetweenCharacters = 0.1f)
+    async void TypeWriter(TextMeshProUGUI textComponent, string stringToDisplay, bool isDisappear)
     {
-        isSpeaking = true;
-        startIndex = 0;
-        StopAllCoroutines();
-        StartCoroutine(TypeWriterCoroutine(textComponent, stringToDisplay, delayBetweenCharacters, action));
-    }
-
-    IEnumerator TypeWriterCoroutine(TextMeshProUGUI textComponent, string stringToDisplay, float delayBetweenCharacters, Action action = null)
-    {
-        // Cache the yield instruction for GC optimization
-        _delayBetweenCharactersYieldInstruction = new WaitForSeconds(delayBetweenCharacters);
-        // Iterating(looping) through the string's characters
-
         for (int i = startIndex; i < stringToDisplay.Length; i++)
         {
-            if (stringToDisplay[i] == '\n')
+            if (stringToDisplay[i] == '*')
             {
                 startIndex = i + 1;
-                yield return new WaitForSecondsRealtime(2f);
+                await Task.Delay(1000);
             }
-
             textComponent.text = stringToDisplay.Substring(startIndex, i - startIndex + 1);
+            textComponent.text = textComponent.text.Replace("*", "");
             // Retrieves part of the text from string[0] to string[i]
             // We wait x seconds between characters before displaying them
+            await Task.Delay(50);
         }
-
-        yield return new WaitForSecondsRealtime(3f);
-        textComponent.text = "";
-        isSpeaking = false;
-        action?.Invoke();
+        if (isDisappear)
+        {
+            await Task.Delay(1000);
+            StopAudio();
+        }
     }
     public void StopAudio()
     {
-        isSpeaking = false;
         TTS.InterruptAll();
         StopAllCoroutines();
         speechText.text = "";
+        count = 0;
+        startIndex = 0;
+        speechList = new string[] { };
+        speechToDisplayList = new string[] { };
+        playSpeechIndicator.gameObject.SetActive(false);
     }
     private void Awake()
     {
@@ -78,8 +79,11 @@ public class TextToSpeech : MonoBehaviour
             attemptMomCount++;
             if (attemptMomCount == 1)
             {
+                playSpeechIndicator.gameObject.SetActive(true);
+                playSpeechIndicator.sprite = play;
                 speech = mom.intro[Random.Range(0, mom.intro.Length)];
-                TTS.Say(speech, mom.speaker);
+                Debug.Log(speech);
+                TTS.Say(speech, mom.speaker, TextType.Normal);
             }
         }
         else if (name.Contains(Avatars.Child.ToString().ToLower()))
@@ -87,59 +91,129 @@ public class TextToSpeech : MonoBehaviour
             attemptChildCount++;
             if (attemptChildCount == 1)
             {
+                playSpeechIndicator.gameObject.SetActive(true);
+                playSpeechIndicator.sprite = play;
                 speech = child.intro[Random.Range(0, child.intro.Length)];
-                TTS.Say(speech, child.speaker);
+                Debug.Log(speech);
+                TTS.Say(speech, child.speaker, TextType.Normal);
             }
         }
-        StartTypeWriterOnText(speechText, speech);
-
+        TypeWriter(speechText, speech, true);
     }
     // Start is called before the first frame update
     void Start()
     {
         TTS.Init();
-        SpeakText(Avatars.Mom, dummyText, null);
     }
-    public async void SpeakText(Avatars speaker, string speech, Action action = null)
+    private void Update()
     {
-        while (isSpeaking)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            await Task.Delay(1000);
+            PlayNextLine();
         }
-        if (!isSpeaking)
+    }
+    public void PlayNextLine()
+    {
+        if (speechList != null)
         {
-            if (speech == "") return;
-
-            string speechToDisplay = speech;
-            speechToDisplay = speechToDisplay.Replace("<v1>", "");
-            speechToDisplay = speechToDisplay.Replace("</v1>", "");
-            speechToDisplay = speechToDisplay.Replace("<v2>", "");
-            speechToDisplay = speechToDisplay.Replace("</v2>", "");
-            speechToDisplay = speechToDisplay.Replace("<e1>", "");
-            speechToDisplay = speechToDisplay.Replace("</e1>", "");
-            speechToDisplay = speechToDisplay.Replace("<br>", "\n");
-
-            speech = "<prosody volume=\"110%\"><emphasis level=\"none\">" + speech + "</emphasis></prosody>";
-            speech = speech.Replace("<v1>", "<prosody volume=\"160%\">");
-            speech = speech.Replace("</v1>", "</prosody>");
-
-            speech = speech.Replace("<v2>", "<prosody volume=\"130%\">");
-            speech = speech.Replace("</v2>", "</prosody>");
-
-            speech = speech.Replace("<e1>", "<emphasis level=\"strong\">");
-            speech = speech.Replace("</e1>", "</emphasis>");
-
-            speech = speech.Replace("<br>", "<break/>");
-            Debug.Log(speech);
-            if (speaker == Avatars.Mom)
+            if (speechList.Length > 1 && count < speechList.Length)
             {
-                TTS.SayAsync(speech, mom.speaker, TextType.SSML);
+                playSpeechIndicator.gameObject.SetActive(true);
+                playSpeechIndicator.sprite = alert;
             }
-            else if (speaker == Avatars.Child)
-            {
-                TTS.SayAsync(speech, child.speaker, TextType.SSML);
-            }
-            StartTypeWriterOnText(speechText, speechToDisplay, action);
+
+            StartCoroutine(WaitForSpeech(speechList, currentAvatar, currentSpeaker, speechToDisplayList, isDisappear, action));
         }
+    }
+
+    public void SpeakText(Avatars speaker, string speech, bool isDisappear, Action action = null)
+    {
+        if (speech == "")
+        {
+            playSpeechIndicator.gameObject.SetActive(false);
+            return;
+        }
+        if (isDisappear)
+        {
+            playSpeechIndicator.gameObject.SetActive(true);
+            playSpeechIndicator.sprite = play;
+        }
+        string speechToDisplay = speech;
+        speechToDisplay = speechToDisplay.Replace("<v1>", "");
+        speechToDisplay = speechToDisplay.Replace("</v1>", "");
+        speechToDisplay = speechToDisplay.Replace("<v2>", "");
+        speechToDisplay = speechToDisplay.Replace("</v2>", "");
+        speechToDisplay = speechToDisplay.Replace("<e1>", "");
+        speechToDisplay = speechToDisplay.Replace("</e1>", "");
+        speechToDisplay = speechToDisplay.Replace("<br>", "*");
+        speechToDisplayList = speechToDisplay.Split('\n');
+
+        speech = speech.Replace("<v1>", "<prosody rate=\"-5%\">");
+        speech = speech.Replace("</v1>", "</prosody>");
+
+        speech = speech.Replace("<v2>", "<prosody rate=\"10%\">");
+        speech = speech.Replace("</v2>", "</prosody>");
+
+        speech = speech.Replace("<e1>", "<emphasis level=\"strong\">");
+        speech = speech.Replace("</e1>", "</emphasis>");
+        speech = speech.Replace("<br>", "<break time=\"1s\"/>");
+        speechList = speech.Split('\n');
+        if (speaker == Avatars.Mom)
+        {
+            currentSpeaker = mom.speaker;
+            currentAvatar = Avatars.Mom;
+        }
+        else
+        {
+            currentSpeaker = child.speaker;
+            currentAvatar = Avatars.Child;
+        }
+        this.action = action;
+        this.isDisappear = isDisappear;
+        PlayNextLine();
+    }
+    IEnumerator WaitForSpeech(string[] speechList, Avatars currentAvatar, TTSSpeaker currentSpeaker, string[] speechToDisplayList, bool isDisappear, Action action = null)
+    {
+        if (speechList != null)
+        {
+            if (speechList.Length > 0)
+            {
+                if (!currentSpeaker.audioSource.isPlaying)
+                {
+                    if (count == speechList.Length && count != 0)
+                    {
+                        playSpeechIndicator.gameObject.SetActive(true);
+                        playSpeechIndicator.sprite = play;
+                        action?.Invoke();
+                        StopAudio();
+                        yield return null;
+                    }
+                    if (count < speechList.Length)
+                    {
+                        startIndex = 0;
+                        SpeakLine(currentAvatar, count, speechList, speechToDisplayList, isDisappear);
+                        yield return new WaitForSecondsRealtime(2);
+                        count++;
+                    }
+                }
+            }
+        }
+    }
+
+    private void SpeakLine(Avatars speaker, int count, string[] speechList, string[] speechToDisplayList, bool isDisappear)
+    {
+        if (speechList[count] == "") return;
+        TTSSpeechCharacteristics characteristics;
+        if (speaker == Avatars.Mom)
+        {
+            characteristics = mom.speaker.characteristics;
+            TTS.Say(speechList[count], characteristics, mom.speaker.audioSource, TextType.SSML);
+        }
+        else
+        {
+            characteristics = child.speaker.characteristics;
+            TTS.Say(speechList[count], characteristics, child.speaker.audioSource, TextType.SSML);
+        }
+        TypeWriter(speechText, speechToDisplayList[count], isDisappear);
     }
 }

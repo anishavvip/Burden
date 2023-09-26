@@ -1894,13 +1894,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05ac2be8d3da0b4390d9d0c222a0b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introSpeech: "I need to prepare for my child's last birthday. \nIt must be a grand
-    celebration!\n*\nSince she won't have the chance to see another one. "
-  doorBellSpeech: "Oh, it looks like the delivery has arrived! \n*\nI've locked my
-    daughter's room as usual and need to grab the package,\nbefore she starts complaining
-    about the missing university letters.  \n*\nLittle does she know that I've been
-    disposing of those letters.  \n*\nWait a second, I can't find the second spare
-    key.  \nI must have dropped it in her room.  I need to hide this package quickly! "
+  introSpeech: "<v1> I need to prepare for my</v1> <e1>child's last</e1> birthday.
+    It must be a <v2>grand celebration!</v2>\r\n<v1> Since she won't have the chance
+    to see <e1>another one</e1></v1>.\r"
+  doorBellSpeech: "Oh, it looks like the delivery has <e1>arrived!</e1> \r\n<v1>
+    I've locked my daughter's room as usual</v1> and need to <e1>grab the package.</e1>\r\n
+    Else she would start <e1>complaining</e1><v1> about the </v1><e1>missing university
+    letters.</e1> \r\n<br> Little does she know that I've been <e1>disposing of those
+    letters.</e1>\r\n<br><v2> Wait a second, </v2>\r\n<v2> I can't find the second
+    spare key.</v2>\r\n<br> I must have <e1>dropped it in her room.</e1> I need to
+    hide this package quickly!\r"
   doorBell: {fileID: 8300000, guid: da9e8135ad7d9034d9136d8ecb4bd01f, type: 3}
   audioSource: {fileID: 3875257593811840817}
   avatar: 0

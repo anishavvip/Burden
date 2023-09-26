@@ -24,9 +24,9 @@ public class IntroScene : MonoBehaviour
             if (avatar.ToString() == player.prefabName)
             {
                 if (avatar == Avatars.Child)
-                    TextToSpeech.Instance.SpeakText(Avatars.Child, introSpeech, DoorBellSpeech);
+                    TextToSpeech.Instance.SpeakText(Avatars.Child, introSpeech, false, DoorBellSpeech);
                 else
-                    TextToSpeech.Instance.SpeakText(Avatars.Mom, introSpeech, DoorBellSound);
+                    TextToSpeech.Instance.SpeakText(Avatars.Mom, introSpeech, false,DoorBellSound);
             }
         }
     }
@@ -51,7 +51,7 @@ public class IntroScene : MonoBehaviour
         {
             if (avatar == Avatars.Mom)
             {
-                TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech, delegate { GalleryGameManager.Instance.mom.isIntroDone = true; });
+                TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech,false, delegate { GalleryGameManager.Instance.mom.isIntroDone = true; });
             }
         }
     }
@@ -62,7 +62,7 @@ public class IntroScene : MonoBehaviour
         if (avatar.ToString() == player.prefabName)
         {
             if (avatar == Avatars.Child)
-                TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech, delegate { GalleryGameManager.Instance.child.isIntroDone = true; });
+                TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech, false, delegate { GalleryGameManager.Instance.child.isIntroDone = true; });
         }
     }
 }

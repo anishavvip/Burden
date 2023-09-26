@@ -67,17 +67,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a014cb09dd6a5f047a0c266a026a3c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   door: {fileID: 0}
   doorOpen: {fileID: 8300000, guid: 37bb40547208f6d4297b4627284966b8, type: 3}
-  speech: "Finding the <v1>hidden keys</v1>, was a bit of a <e1>brain-teaser.</e1>\n<br>\nI
-    have to search for that <e1>familiar old box</e1>, that always gets mailed.\n<br>\n<e1><v2>Which
-    university do you think the letter will be from? \nJust imagine, making new friends,
-    new experiences, a whole new chapter!</e1></v2>"
-  preSpeech: "<v1>Could these be the spare keys, for</v1> <e1>my room?</e1>\n<br>\nWhy
-    were they stored in such an unusual spot?\n<br>\nI have to search for that <e1>familiar
-    old box</e1>, that always gets mailed.\n<br>\n<e1><v2>Which university do you
-    think the letter will be from? \nJust imagine, making new friends, new experiences,
-    a whole new chapter!</e1></v2>"
+  speech: " Finding the <v1>hidden keys</v1>, was a bit of a <e1>brain-teaser.</e1>\n<br>
+    I have to search for that <e1>familiar old box</e1>, that always gets mailed.\r\nWhich
+    <e1> university</e1> do you think the<e1> letter will be from?</e1> \r\n Just
+    imagine, making new <e1>friends</e1>, new<e1> experiences</e1>, a whole new <e1>chapter!</e1>"
+  preSpeech: "<v1> Could these be the spare keys, for</v1> <e1>my room?</e1>\r\n<br>
+    Why were they<e1>  stored</e1>  in such an <e1> unusual spot?</e1> \r\n<br> I
+    have to search for that <e1>familiar old box</e1>, that always gets mailed.\r\nWhich
+    <e1> university</e1> do you think the<e1> letter will be from?</e1> \r\n Just
+    imagine, making new <e1>friends</e1>, new<e1> experiences</e1>, a whole new <e1>chapter!</e1>\r"
 --- !u!1 &3176170269830142489
 GameObject:
   m_ObjectHideFlags: 0

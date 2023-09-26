@@ -32,14 +32,14 @@ public class TriggeredSpeech : MonoBehaviour
                 {
                     if (child.isLocked)
                     {
-                        TextToSpeech.Instance.SpeakText(Avatars.Child, child.lockedSpeech, delegate { speechCompleted = true; });
+                        TextToSpeech.Instance.SpeakText(Avatars.Child, child.lockedSpeech, false, delegate { speechCompleted = true; });
                     }
                     else
-                        TextToSpeech.Instance.SpeakText(Avatars.Child, child.speech, delegate { speechCompleted = true; });
+                        TextToSpeech.Instance.SpeakText(Avatars.Child, child.speech, true, delegate { speechCompleted = true; });
                 }
                 else
                 {
-                    TextToSpeech.Instance.SpeakText(Avatars.Mom, mom.speech, delegate { speechCompleted = true; });
+                    TextToSpeech.Instance.SpeakText(Avatars.Mom, mom.speech, true, delegate { speechCompleted = true; });
                 }
             }
         }

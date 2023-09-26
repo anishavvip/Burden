@@ -25,7 +25,7 @@ public class GameUIController : MonoBehaviour
     {
         audioToggle.isOn = toggledValue;
         waitingUI.SetActive(true);
-        waitingText.text = "...";
+        waitingText.text = "";
     }
 
     public void AllPlayersHaveJoined()
@@ -42,13 +42,13 @@ public class GameUIController : MonoBehaviour
         {
             text = $"{Avatars.Child},\nare you there?";
 
-            TextToSpeech.Instance.SpeakText(Avatars.Mom, text.Replace('\n', ' '));
+            TextToSpeech.Instance.SpeakText(Avatars.Mom, text.Replace('\n', ' '), true);
         }
         else
         {
             text = $"{Avatars.Mom},\nare you there?";
 
-            TextToSpeech.Instance.SpeakText(Avatars.Child, text.Replace('\n', ' '));
+            TextToSpeech.Instance.SpeakText(Avatars.Child, text.Replace('\n', ' '), true);
         }
         waitingText.text = text;
     }

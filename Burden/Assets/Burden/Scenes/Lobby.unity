@@ -1538,7 +1538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1237206453
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2432,14 +2432,12 @@ PrefabInstance:
     - target: {fileID: 4273409819148112592, guid: 429f0364738096f498ce540111f0aa7b,
         type: 3}
       propertyPath: dummyText
-      value: "Oh, it looks like the delivery has <e1>arrived!</e1> \r\n<br>\r\n<v1>I've
-        locked my daughter's room as usual,</v1>\r\n<br>\r\n and need to <e1>grab
-        the package,</e1> before she starts <e1>complaining</e1>\r\n<v1>about the
-        </v1><e1>missing university letters.</e1> \r\n<br>\r\nLittle does she know
-        that,\r\n<br>\r\n I've been <e1>disposing of those letters.</e1>\r\n<br>\r\n<v2>Wait
-        a second, \r\n<br>\r\nI can't find the second spare key.</v2>\r\nI must have
-        <e1>dropped it in her room.</e1>\r\n<br>\r\n<br>\r\n<v1>I need to hide this
-        package quickly!</v1>"
+      value: "<v1> Could these be the spare keys, for</v1> <e1>my room?</e1>\r\n<br>
+        Why were they<e1>  stored</e1>  in such an <e1> unusual spot?</e1> \r\n<br>
+        I have to search for that <e1>familiar old box</e1>, that always gets mailed.\r\nWhich
+        <e1> university</e1>  do you think the<e1>  letter will be from?</e1> \r\n
+        Just imagine, making new <e1>friends</e1>, new<e1> experiences</e1> , a whole
+        new <e1>chapter!</e1> \r"
       objectReference: {fileID: 0}
     - target: {fileID: 7612158229200700930, guid: 429f0364738096f498ce540111f0aa7b,
         type: 3}

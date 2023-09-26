@@ -925,6 +925,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 90757972}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &42304442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42304443}
+  m_Layer: 0
+  m_Name: Pos1 (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42304443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42304442}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7267007, z: 0, w: -0.68695426}
+  m_LocalPosition: {x: 3.901, y: 4.098, z: 13.644}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -266.779, z: 0}
 --- !u!4 &45781193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5008556356809125375, guid: f01b8dde2f2266c4a9c87acaa4ed6003,
@@ -1548,6 +1579,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 1e4c9d0deb3bcc144ae6e91318e143a7, type: 3}
+--- !u!1 &72985969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 72985970}
+  m_Layer: 0
+  m_Name: Pos1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &72985970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72985969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.71696544, z: 0, w: 0.69710875}
+  m_LocalPosition: {x: 11.192, y: 4.1, z: 8.637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -91.609, z: 0}
 --- !u!64 &75251683
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5569,6 +5631,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 782904912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &179038055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179038056}
+  m_Layer: 0
+  m_Name: Pos1 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &179038056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179038055}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7267007, z: 0, w: -0.68695426}
+  m_LocalPosition: {x: 10.864, y: 4.1, z: 11.677}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -266.779, z: 0}
 --- !u!64 &179447086
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28468,7 +28561,7 @@ Transform:
   m_GameObject: {fileID: 804928466}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.48, y: 6.762, z: -20.150002}
+  m_LocalPosition: {x: 8.253, y: 6.762, z: 9.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29901,6 +29994,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 140953826}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &834615591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834615592}
+  m_Layer: 0
+  m_Name: Pos1 (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &834615592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834615591}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.054138005, z: -0, w: -0.9985335}
+  m_LocalPosition: {x: 3.943, y: 4.098, z: 11.427}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -366.207, z: 0}
 --- !u!4 &835708585 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5008556356809125375, guid: f01b8dde2f2266c4a9c87acaa4ed6003,
@@ -32417,6 +32541,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4765087622529329009, guid: 651d77a525480c84e9327ec0894c0da1, type: 3}
+--- !u!1 &906950459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 906950460}
+  m_Layer: 0
+  m_Name: Pos1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &906950460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906950459}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7267007, z: 0, w: -0.68695426}
+  m_LocalPosition: {x: 10.893, y: 4.1, z: 8.874}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -266.779, z: 0}
 --- !u!4 &906972126 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5921126462729845301, guid: bee09117d2231334d90a559b1ff7f323,
@@ -40819,6 +40974,37 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1091460099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1091987750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091987751}
+  m_Layer: 0
+  m_Name: Pos1 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091987751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091987750}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7267007, z: 0, w: -0.68695426}
+  m_LocalPosition: {x: 10.95, y: 4.098, z: 13.202}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -266.779, z: 0}
 --- !u!4 &1092706071 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5921126462729845301, guid: bee09117d2231334d90a559b1ff7f323,
@@ -60954,28 +61140,12 @@ MonoBehaviour:
     isLocked: 0
   child:
     speech: The way into the other rooms.
-    lockedSpeech: '<v2>Wait, it''s locked!</v2>
-
-      I <v2>remember Mom hiding</v2>
-      the spare <e1>keys</e1>, <v1>around here somewhere.</v1>
-
-      <br>
-
-      <v1>Well,
-      this isn''t the first time that I''ve ended up locked in my own room.<v1>
-
-      <br>
-
-      Mom
-      must be busy <e1>preparing a surprise; for my <v2>18th birthday</v2> tomorrow.</e1>
-
-      <br>
-
-      I
-      <e1>completely forgot</e1> about the doorbell.
-
-      <v2>My university letter,
-      I''m on my way to find you!</v2>'
+    lockedSpeech: "<v2> Wait, it's locked!</v2><br>\n I <v2>remember Mom hiding</v2>
+      the spare <e1>keys</e1>, <v1>around here somewhere.</v1>\n<br><v1> Well, this
+      isn't the first time that I've ended up locked in my own room.<v1>\n<br> Mom
+      must be busy <e1>preparing a surprise; for my <v2>18th birthday</v2> tomorrow.</e1>\n<br>
+      I <e1>completely forgot</e1> about the doorbell. <v2>My university letter,
+      I'm on my way to find you!</v2>"
     isLocked: 1
   speechCompleted: 1
 --- !u!1 &1575954551
@@ -73553,6 +73723,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1813524499}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1779829200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779829201}
+  m_Layer: 0
+  m_Name: Pos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1779829201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779829200}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.46708122, z: 0, w: 0.88421446}
+  m_LocalPosition: {x: 8.3997, y: 4.1, z: 8.1161}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -55.69, z: 0}
 --- !u!1001 &1780115241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97658,16 +97859,6 @@ PrefabInstance:
       propertyPath: parcel
       value: 
       objectReference: {fileID: 2793901773288010650}
-    - target: {fileID: 1508231372104520343, guid: ff1c3af0275ea4947a07d31ebc384b55,
-        type: 3}
-      propertyPath: introSpeech
-      value: "Why'd she <e1>drag</e1> us to this <v2>middle-of-nowhere</v2> place?
-        \n<br>\n<v1>I hate being alone</v1> and homeschooling is like; <e1>school
-        without friends.</e1> \n<e1>Remember the neighbor thing? My mom went full
-        drama queen.</e1>\n<br>\n<v1>Now, I'm just waiting for those university letters.</v1>
-        \nEven though I <e1>aced their tests</e1>, my mailbox is on <v2>vacation</v2>.
-        \n<v2>Can't wait for university \u2013 where I'll party hard.</v2>"
-      objectReference: {fileID: 0}
     - target: {fileID: 3919389608226324355, guid: ff1c3af0275ea4947a07d31ebc384b55,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -97979,30 +98170,6 @@ PrefabInstance:
       propertyPath: parcel
       value: 
       objectReference: {fileID: 2793901773288010650}
-    - target: {fileID: 6237375570567693635, guid: 45fb1b7bd49f80c40b5eef908e5a8602,
-        type: 3}
-      propertyPath: introSpeech
-      value: '<v1>I need to prepare for my</v1> <e1>child''s last birthday.</e1>
-
-        It
-        must be a <v2>grand celebration!</v2>
-
-        <br>
-
-        <v1>Since she
-        won''t have the chance to see <e1>another one.</e1></v1> '
-      objectReference: {fileID: 0}
-    - target: {fileID: 6237375570567693635, guid: 45fb1b7bd49f80c40b5eef908e5a8602,
-        type: 3}
-      propertyPath: doorBellSpeech
-      value: "Oh, it looks like the delivery has <e1>arrived!</e1> \n<br>\n<v1>I've
-        locked my daughter's room as usual,</v1>\n<br>\n and need to <e1>grab the
-        package,</e1> before she starts <e1>complaining</e1>\n<v1>about the </v1><e1>missing
-        university letters.</e1> \n<br>\nLittle does she know that,\n<br>\n I've
-        been <e1>disposing of those letters.</e1>\n<br>\n<v2>Wait a second, \n<br>\nI
-        can't find the second spare key.</v2>\nI must have <e1>dropped it in her
-        room.</e1>\n<br>\n<br>\n<v1>I need to hide this package quickly!</v1>"
-      objectReference: {fileID: 0}
     - target: {fileID: 7553680765305864448, guid: 45fb1b7bd49f80c40b5eef908e5a8602,
         type: 3}
       propertyPath: m_Name
@@ -99038,21 +99205,39 @@ PrefabInstance:
       objectReference: {fileID: 888909899}
     - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
         type: 3}
-      propertyPath: speech
-      value: "Finding the <v1>hidden keys</v1>, was a bit of a <e1>brain-teaser.</e1>\n<br>\nI
-        have to search for that <e1>familiar old box</e1>, that always gets mailed.\n<br>\n<e1>Which
-        university do you think the letter will be from? \nJust imagine, making new
-        friends, new experiences, a whole new chapter!</e1>"
-      objectReference: {fileID: 0}
+      propertyPath: spawnPos.Array.data[0]
+      value: 
+      objectReference: {fileID: 1779829201}
     - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
         type: 3}
-      propertyPath: preSpeech
-      value: "<v1>Could these be the spare keys, for</v1> <e1>my room?</e1>\n<br>\nWhy
-        were they stored in such an unusual spot?\n<br>\nI have to search for that
-        <e1>familiar old box</e1>, that always gets mailed.\n<br>\n<e1>Which university
-        do you think the letter will be from? \nJust imagine, making new friends,
-        new experiences, a whole new chapter!</e1>"
-      objectReference: {fileID: 0}
+      propertyPath: spawnPos.Array.data[1]
+      value: 
+      objectReference: {fileID: 72985970}
+    - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
+        type: 3}
+      propertyPath: spawnPos.Array.data[2]
+      value: 
+      objectReference: {fileID: 906950460}
+    - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
+        type: 3}
+      propertyPath: spawnPos.Array.data[3]
+      value: 
+      objectReference: {fileID: 179038056}
+    - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
+        type: 3}
+      propertyPath: spawnPos.Array.data[4]
+      value: 
+      objectReference: {fileID: 1091987751}
+    - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
+        type: 3}
+      propertyPath: spawnPos.Array.data[5]
+      value: 
+      objectReference: {fileID: 42304443}
+    - target: {fileID: 6053483612455271550, guid: e290fd4029fbf6f449b1498971f88308,
+        type: 3}
+      propertyPath: spawnPos.Array.data[6]
+      value: 
+      objectReference: {fileID: 834615592}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99924,5 +100109,12 @@ SceneRoots:
   - {fileID: 8468147655138246749}
   - {fileID: 1851174112}
   - {fileID: 2793901773288010649}
-  - {fileID: 7777849438103952553}
   - {fileID: 1708742383}
+  - {fileID: 7777849438103952553}
+  - {fileID: 1779829201}
+  - {fileID: 72985970}
+  - {fileID: 906950460}
+  - {fileID: 179038056}
+  - {fileID: 1091987751}
+  - {fileID: 42304443}
+  - {fileID: 834615592}
