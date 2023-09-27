@@ -264,7 +264,7 @@ public class GalleryGameManager : MonoBehaviour
                 pc.enabled = false; //Stop all the messages and updates
             }
             AudioListener.volume = 1.0f;
-            TextToSpeech.Instance.StopAudio();
+            TextToSpeech.Instance.Refresh();
             ExampleManager.Instance.LeaveAllRooms(() => { SceneManager.LoadScene("Lobby"); });
         }
     }

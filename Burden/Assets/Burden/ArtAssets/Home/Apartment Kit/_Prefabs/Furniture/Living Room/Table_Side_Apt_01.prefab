@@ -446,8 +446,8 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 670045c46abca0544a34a6d8647b08bb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
+  m_CullingMode: 2
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -468,3 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943b50f962a0a404ab428fa591dc134a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 0
+  counter: 0
+  TriggeredSpeech: {fileID: 0}
+  extent: 0.5
+  canPlaceObjectsInside: 1

@@ -127,7 +127,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 13.5}
-  m_SizeDelta: {x: -1100, y: 103.6}
+  m_SizeDelta: {x: -1000, y: 103.6}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5031718860454153682
 CanvasRenderer:
@@ -696,9 +696,12 @@ MonoBehaviour:
     - "\rI'm a kid, no kidding."
     - I'm a mini-me.
   speechText: {fileID: 9080258854300222791}
-  dummyText: "<v1> I need to prepare for my</v1> <e1>child's last</e1> birthday.
-    It must be a <v2>grand celebration!</v2>\r\n<v1> Since she won't have the chance
-    to see <e1>another one</e1></v1>.\r"
+  dummyText: "<v1> Could these be the spare keys, for</v1> <e1>my room?</e1>\r\n<br>
+    Why were they<e1>  stored</e1>  in such an <e1> unusual spot?</e1> \r\n<br> I
+    have to search for that <e1>familiar old box</e1>, that always gets mailed.\r\nWhich
+    <e1> university</e1>  do you think the<e1>  letter will be from?</e1> \r\n Just
+    imagine, making new <e1>friends</e1>, new<e1> experiences</e1> , a whole new
+    <e1>chapter!</e1> \r"
   playSpeechIndicator: {fileID: 7846809835397419559}
   play: {fileID: 21300000, guid: 61a51f4749d1b134fb3de5f85ae44b2b, type: 3}
   alert: {fileID: 21300000, guid: 33b115bf5efdfa04d8e2e0b70a6643cd, type: 3}

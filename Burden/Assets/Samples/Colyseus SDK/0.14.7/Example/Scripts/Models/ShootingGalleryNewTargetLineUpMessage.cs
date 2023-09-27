@@ -24,9 +24,15 @@ public class GrabDetails
     public string name;
     public float xPos, yPos, zPos, xRot, yRot, zRot, wRot;
     public bool isDrag = false;
+    public bool isClicked = false;
 }
 public class ItemDetails
 {
     public string itemName;
+    public string name;
+    public bool isLocked;
+}
+public class HiddenKeyData
+{
     public string name;
 }

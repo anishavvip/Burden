@@ -1,11 +1,12 @@
-using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DoorKey : MonoBehaviour
 {
+    public GameObject key;
     [SerializeField]
     Transform[] spawnPos;
-    [SerializeField] Interactable door;
+    public Interactable door;
     [SerializeField] AudioClip doorOpen;
     PlayerController player;
     [TextAreaAttribute(1, 20)]
@@ -13,10 +14,24 @@ public class DoorKey : MonoBehaviour
     bool gotPos = false;
     string[] indices;
     string spot;
+    public static DoorKey Instance;
+    int index = -1;
+    bool initialDataShared = false;
+    KeyData keyData = new KeyData();
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
+        initialDataShared = false;
+        GetHidingSpot();
+    }
+    private void GetHidingSpot()
+    {
         player = ExampleManager.GetPlayer();
+        Debug.Log("setting");
         if (player.prefabName == Avatars.Child.ToString())
         {
             int index = Random.Range(0, spawnPos.Length);
@@ -45,12 +60,7 @@ public class DoorKey : MonoBehaviour
                 Hide(index);
             }
         }
-        else
-        {
-            gameObject.SetActive(false);
-        }
     }
-
     private bool Hide(int index)
     {
         if (indices != null)
@@ -66,12 +76,54 @@ public class DoorKey : MonoBehaviour
                 }
             }
         }
+        SetKey(index);
+        PlayerPrefs.SetString("Spot", spot + "_" + index);
+        Debug.Log("Spot:" + spot);
+        spot = PlayerPrefs.GetString("Spot");
+        this.index = index;
+        return true;
+    }
+
+    private void Update()
+    {
+        if (player != null)
+            if (player.hasGameBegun && !initialDataShared && player.prefabName == Avatars.Child.ToString())
+            {
+                if (!door.isLocked || InteractablesHelper.allUnlocked) key.SetActive(false);
+
+                if (index != -1)
+                {
+                    keyData.index = index;
+                    Debug.Log("spot" + index);
+                    ExampleManager.CustomServerMethod("setKey", new object[] { keyData });
+                    initialDataShared = true;
+                }
+            }
+    }
+    private void OnEnable()
+    {
+        ExampleRoomController.onDoorKeyHide += DoorKeyHide;
+    }
+    private void OnDisable()
+    {
+        ExampleRoomController.onDoorKeyHide -= DoorKeyHide;
+    }
+    private void DoorKeyHide(KeyData keyData)
+    {
+        SetKey(keyData.index);
+    }
+
+    public void SetKey(int index)
+    {
+        if (index == -1)
+        {
+            key.SetActive(false);
+            return;
+        }
+        Debug.Log(index);
+        key.SetActive(true);
         transform.position = spawnPos[index].position;
         transform.localRotation = spawnPos[index].localRotation;
-        PlayerPrefs.SetString("Spot", spot + "_" + index);
-
-        spot = PlayerPrefs.GetString("Spot");
-        return true;
     }
 
     private void OnMouseOver()
@@ -80,13 +132,13 @@ public class DoorKey : MonoBehaviour
         if (!player.hasGameBegun) return;
         if (player.prefabName == Avatars.Mom.ToString()) return;
 
-        if (player.SyncData.rightClicked)
+        if (player.SyncData.rightClicked && door.isLocked)
         {
             Debug.Log("right clicked");
             if (player.isIntroDone)
             {
-                TextToSpeech.Instance.StopAudio();
-                if (player.didPlayerTryUnlocking)
+                TextToSpeech.Instance.Refresh();
+                if (player.didPlayerTryUnlocking && door.isLocked)
                 {
                     TextToSpeech.Instance.SpeakText(Avatars.Child, speech, false);
                 }
@@ -94,18 +146,28 @@ public class DoorKey : MonoBehaviour
                 {
                     TextToSpeech.Instance.SpeakText(Avatars.Child, preSpeech, false);
                 }
-                door.counter++;
-                door.isLocked = false;
-                door.Interact(player, false);
-                ItemDetails itemDetails = new ItemDetails();
-                itemDetails.name = ExampleManager.Instance.Avatar.ToString();
-                itemDetails.itemName = gameObject.name;
-
-                ExampleManager.CustomServerMethod("itemInteract", new object[] { itemDetails });
-                AudioSource.PlayClipAtPoint(doorOpen, door.transform.position);
-
-                gameObject.SetActive(false);
             }
+
+            KeyInteractedWith();
         }
+    }
+
+    private void KeyInteractedWith()
+    {
+        if (!door.isLocked) return;
+        door.counter++;
+        door.isLocked = false;
+        door.Interact(player, false);
+        index = -1;
+        ItemDetails itemDetails = new ItemDetails();
+        itemDetails.name = ExampleManager.Instance.Avatar.ToString();
+        itemDetails.itemName = door.name;
+        itemDetails.isLocked = door.isLocked;
+        ExampleManager.CustomServerMethod("itemInteract", new object[] { itemDetails });
+        AudioSource.PlayClipAtPoint(doorOpen, door.transform.position);
+
+        key.SetActive(false);
+        keyData.index = index;
+        ExampleManager.CustomServerMethod("setKey", new object[] { keyData });
     }
 }

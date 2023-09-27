@@ -8,12 +8,13 @@ public class DragRigidbody : MonoBehaviour
 {
     float force = 600;
     float damping = 6;
-    float distance = 10;
+    float distance = 3;
     Transform jointTrans;
     float dragDepth;
     PlayerController player;
     [HideInInspector] public Rigidbody Rigidbody;
     bool isDrag = false;
+    bool isClicked = false;
 
     private void Awake()
     {
@@ -39,6 +40,8 @@ public class DragRigidbody : MonoBehaviour
         SyncData.zRot = transform.localRotation.z;
         SyncData.wRot = transform.localRotation.w;
         SyncData.isDrag = isDrag;
+        SyncData.isClicked = isClicked;
+
         ExampleManager.CustomServerMethod("itemGrab", new object[] { SyncData });
     }
     private void Update()
@@ -48,12 +51,14 @@ public class DragRigidbody : MonoBehaviour
     }
     void OnMouseDown()
     {
+        isClicked = true;
         HandleInputBegin(Input.mousePosition);
         player.DragRigidbody = this;
     }
 
     void OnMouseUp()
     {
+        isClicked = false;
         HandleInputEnd(Input.mousePosition);
     }
     void OnMouseDrag()

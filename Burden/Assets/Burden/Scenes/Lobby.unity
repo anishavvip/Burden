@@ -2429,16 +2429,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4273409819148112592, guid: 429f0364738096f498ce540111f0aa7b,
-        type: 3}
-      propertyPath: dummyText
-      value: "<v1> Could these be the spare keys, for</v1> <e1>my room?</e1>\r\n<br>
-        Why were they<e1>  stored</e1>  in such an <e1> unusual spot?</e1> \r\n<br>
-        I have to search for that <e1>familiar old box</e1>, that always gets mailed.\r\nWhich
-        <e1> university</e1>  do you think the<e1>  letter will be from?</e1> \r\n
-        Just imagine, making new <e1>friends</e1>, new<e1> experiences</e1> , a whole
-        new <e1>chapter!</e1> \r"
-      objectReference: {fileID: 0}
     - target: {fileID: 7612158229200700930, guid: 429f0364738096f498ce540111f0aa7b,
         type: 3}
       propertyPath: m_Name

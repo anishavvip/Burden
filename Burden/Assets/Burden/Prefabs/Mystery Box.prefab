@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1474629325645109574}
   - component: {fileID: 259034047213761312}
   - component: {fileID: 2217265234437403203}
-  - component: {fileID: 2089703972988086469}
   - component: {fileID: 9006116269064176939}
   m_Layer: 12
   m_Name: Mystery Box
@@ -95,7 +94,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8056630703027576738}
   serializedVersion: 4
-  m_Mass: 0.1
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -127,18 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 0}
---- !u!114 &2089703972988086469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8056630703027576738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4b1209eebdb314094c27a891e97258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &9006116269064176939
 BoxCollider:
   m_ObjectHideFlags: 0

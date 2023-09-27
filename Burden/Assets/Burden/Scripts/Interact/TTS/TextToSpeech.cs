@@ -34,28 +34,29 @@ public class TextToSpeech : MonoBehaviour
     [SerializeField] Sprite play, alert;
     bool isDisappear;
 
-    async void TypeWriter(TextMeshProUGUI textComponent, string stringToDisplay, bool isDisappear)
+    IEnumerator TypeWriter(TextMeshProUGUI textComponent, string stringToDisplay, bool isDisappear)
     {
         for (int i = startIndex; i < stringToDisplay.Length; i++)
         {
             if (stringToDisplay[i] == '*')
             {
                 startIndex = i + 1;
-                await Task.Delay(1000);
+                yield return new WaitForSecondsRealtime(1);
             }
             textComponent.text = stringToDisplay.Substring(startIndex, i - startIndex + 1);
             textComponent.text = textComponent.text.Replace("*", "");
             // Retrieves part of the text from string[0] to string[i]
             // We wait x seconds between characters before displaying them
-            await Task.Delay(50);
+
+            yield return new WaitForSecondsRealtime(0.1f);
         }
         if (isDisappear)
         {
-            await Task.Delay(1000);
-            StopAudio();
+            yield return new WaitForSecondsRealtime(1);
+            textComponent.text = "";
         }
     }
-    public void StopAudio()
+    public void Refresh()
     {
         TTS.InterruptAll();
         StopAllCoroutines();
@@ -64,14 +65,17 @@ public class TextToSpeech : MonoBehaviour
         startIndex = 0;
         speechList = new string[] { };
         speechToDisplayList = new string[] { };
-        playSpeechIndicator.gameObject.SetActive(false);
+        if (playSpeechIndicator != null)
+            playSpeechIndicator.gameObject.SetActive(false);
     }
+
     private void Awake()
     {
         Instance = this;
     }
     public void Hover(string name)
     {
+        Refresh();
         name = name.ToLower();
         string speech = "";
         if (name.Contains(Avatars.Mom.ToString().ToLower()))
@@ -79,8 +83,11 @@ public class TextToSpeech : MonoBehaviour
             attemptMomCount++;
             if (attemptMomCount == 1)
             {
-                playSpeechIndicator.gameObject.SetActive(true);
-                playSpeechIndicator.sprite = play;
+                if (playSpeechIndicator != null)
+                {
+                    playSpeechIndicator.gameObject.SetActive(true);
+                    playSpeechIndicator.sprite = play;
+                }
                 speech = mom.intro[Random.Range(0, mom.intro.Length)];
                 Debug.Log(speech);
                 TTS.Say(speech, mom.speaker, TextType.Normal);
@@ -91,14 +98,20 @@ public class TextToSpeech : MonoBehaviour
             attemptChildCount++;
             if (attemptChildCount == 1)
             {
-                playSpeechIndicator.gameObject.SetActive(true);
-                playSpeechIndicator.sprite = play;
+                if (playSpeechIndicator != null)
+                {
+                    playSpeechIndicator.gameObject.SetActive(true);
+                    playSpeechIndicator.sprite = play;
+                }
                 speech = child.intro[Random.Range(0, child.intro.Length)];
                 Debug.Log(speech);
                 TTS.Say(speech, child.speaker, TextType.Normal);
             }
         }
-        TypeWriter(speechText, speech, true);
+        if (speech != "")
+        {
+            StartCoroutine(TypeWriter(speechText, speech, true));
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -111,15 +124,23 @@ public class TextToSpeech : MonoBehaviour
         {
             PlayNextLine();
         }
+        if (currentSpeaker != null)
+        {
+            playSpeechIndicator.gameObject.SetActive(speechText.text != "");
+        }
     }
+
     public void PlayNextLine()
     {
         if (speechList != null)
         {
             if (speechList.Length > 1 && count < speechList.Length)
             {
-                playSpeechIndicator.gameObject.SetActive(true);
-                playSpeechIndicator.sprite = alert;
+                if (playSpeechIndicator != null)
+                {
+                    playSpeechIndicator.gameObject.SetActive(true);
+                    playSpeechIndicator.sprite = alert;
+                }
             }
 
             StartCoroutine(WaitForSpeech(speechList, currentAvatar, currentSpeaker, speechToDisplayList, isDisappear, action));
@@ -128,15 +149,22 @@ public class TextToSpeech : MonoBehaviour
 
     public void SpeakText(Avatars speaker, string speech, bool isDisappear, Action action = null)
     {
+        Refresh();
         if (speech == "")
         {
-            playSpeechIndicator.gameObject.SetActive(false);
+            if (playSpeechIndicator != null)
+            {
+                playSpeechIndicator.gameObject.SetActive(false);
+            }
             return;
         }
         if (isDisappear)
         {
-            playSpeechIndicator.gameObject.SetActive(true);
-            playSpeechIndicator.sprite = play;
+            if (playSpeechIndicator != null)
+            {
+                playSpeechIndicator.gameObject.SetActive(true);
+                playSpeechIndicator.sprite = play;
+            }
         }
         string speechToDisplay = speech;
         speechToDisplay = speechToDisplay.Replace("<v1>", "");
@@ -182,10 +210,8 @@ public class TextToSpeech : MonoBehaviour
                 {
                     if (count == speechList.Length && count != 0)
                     {
-                        playSpeechIndicator.gameObject.SetActive(true);
-                        playSpeechIndicator.sprite = play;
                         action?.Invoke();
-                        StopAudio();
+                        Refresh();
                         yield return null;
                     }
                     if (count < speechList.Length)
@@ -214,6 +240,6 @@ public class TextToSpeech : MonoBehaviour
             characteristics = child.speaker.characteristics;
             TTS.Say(speechList[count], characteristics, child.speaker.audioSource, TextType.SSML);
         }
-        TypeWriter(speechText, speechToDisplayList[count], isDisappear);
+        StartCoroutine(TypeWriter(speechText, speechToDisplayList[count], isDisappear));
     }
 }

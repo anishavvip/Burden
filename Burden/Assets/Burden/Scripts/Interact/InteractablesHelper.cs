@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using static ExampleRoomController;
 
@@ -8,6 +7,7 @@ public class InteractablesHelper : MonoBehaviour
     public DragRigidbody mysteryBox;
     public Interactable[] interactables;
     PlayerController player;
+    public static bool allUnlocked = false;
 
     private void Start()
     {
@@ -39,9 +39,23 @@ public class InteractablesHelper : MonoBehaviour
                 {
                     if (interactedItem.name == player.prefabName)
                     {
-                        item.Interact(player);
-                        return;
+                        if (DoorKey.Instance.door.name == item.name)
+                        {
+                            if (player.prefabName == Avatars.Mom.ToString())
+                            {
+
+                                allUnlocked = true;
+                                DoorKey.Instance.key.SetActive(false);
+                                item.Interact(player, false);
+                            }
+                        }
+                        else
+                        {
+                            item.isLocked = interactedItem.isLocked;
+                            item.Interact(player, item.isLocked);
+                        }
                     }
+                    return;
                 }
             }
     }
@@ -60,12 +74,17 @@ public class InteractablesHelper : MonoBehaviour
             {
                 Vector3 pos = new Vector3(input.xPos, input.yPos, input.zPos);
                 Quaternion rot = new Quaternion(input.xRot, input.yRot, input.zRot, input.wRot);
-                mysteryBox.transform.position = pos;
-                mysteryBox.transform.localRotation = rot;
+
                 if (input.isDrag)
+                {
+                    mysteryBox.transform.DOMove(pos, 0.18f).SetEase(Ease.Linear);
+                    mysteryBox.transform.DOLocalRotateQuaternion(rot, 0.18f).SetEase(Ease.Linear);
                     mysteryBox.Rigidbody.isKinematic = true;
+                }
                 else
+                {
                     mysteryBox.Rigidbody.isKinematic = false;
+                }
             }
             else
             {

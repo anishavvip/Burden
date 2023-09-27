@@ -25,7 +25,7 @@ public class GameUIController : MonoBehaviour
     {
         audioToggle.isOn = toggledValue;
         waitingUI.SetActive(true);
-        waitingText.text = "";
+        waitingText.text = "...";
     }
 
     public void AllPlayersHaveJoined()

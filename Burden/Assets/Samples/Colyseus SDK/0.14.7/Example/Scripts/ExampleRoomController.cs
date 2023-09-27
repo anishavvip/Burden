@@ -16,6 +16,8 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class ExampleRoomController
 {
+    public delegate void OnBellRing(HiddenKeyData hiddenKeyData);
+    public delegate void OnDoorKeyHide(KeyData keyData);
     public delegate void OnSyncAudio(AudioDetails audioDetails);
     public delegate void OnGrabItem(GrabDetails grabbedItem);
     public delegate void OnInteractItem(ItemDetails iteractedItem);
@@ -226,7 +228,8 @@ public class ExampleRoomController
 
         return null;
     }
-
+    public static event OnBellRing onBellRing;
+    public static event OnDoorKeyHide onDoorKeyHide;
     public static event OnSyncAudio onSyncAudio;
     public static event OnGrabItem onGrabItem;
     public static event OnInteractItem onInteractItem;
@@ -409,8 +412,15 @@ public class ExampleRoomController
         });
 
         //Custom game logic
-
-        _room.OnMessage<ShootingGalleryMessage>("DoorBell", msg => { ExampleManager.GetPlayer().IntroScene.PlayDoorRing(); });
+        _room.OnMessage<KeyData>("setKey", msg => { onDoorKeyHide?.Invoke(msg); });
+        _room.OnMessage<HiddenKeyData>("doorBell", msg =>
+        {
+            onBellRing?.Invoke(msg);
+        }); 
+        _room.OnMessage<HiddenKeyData>("doorBellRing", msg =>
+        {
+            IntroScene.hasDoorBellRung = true;
+        });
         _room.OnMessage<AudioDetails>("syncAudio", details => { onSyncAudio?.Invoke(details); });
         _room.OnMessage<ShootingGalleryMessage>("removeRoom", msg => { onRemoveRoom?.Invoke(); });
         _room.OnMessage<InputSyncData>("syncData", input => { onSyncData?.Invoke(input); });

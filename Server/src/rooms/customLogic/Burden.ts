@@ -59,12 +59,33 @@ customMethods.setSyncInputs = function (
   const inputs = param[0];
   roomRef.broadcast("syncData", inputs);
 };
-customMethods.DoorBell = function (
+
+customMethods.doorBellRing = function (
   roomRef: BurdenRoom,
   client: Client,
   request: any
 ) {
-  roomRef.broadcast("DoorBell", {});
+  if (roomRef.doorBellRung === true) return;
+  roomRef.doorBellRung = true;
+  roomRef.broadcast("doorBellRing", {});
+};
+customMethods.doorBell = function (
+  roomRef: BurdenRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("doorBell", inputs);
+};
+customMethods.setKey = function (
+  roomRef: BurdenRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("setKey", inputs);
 };
 customMethods.syncAudio = function (
   roomRef: BurdenRoom,
@@ -201,6 +222,7 @@ let waitingLogic = function (roomRef: BurdenRoom, deltaTime: number) {
  */
 exports.InitializeLogic = function (roomRef: BurdenRoom, options: any) {
   roomOptions = options;
+  roomRef.doorBellRung = false;
   // Set initial game state to waiting for all clients to be ready
   setRoomAttribute(roomRef, CurrentState, ServerGameState.Waiting);
   setRoomAttribute(roomRef, LastState, ServerGameState.None);

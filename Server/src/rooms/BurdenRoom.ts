@@ -13,7 +13,7 @@ export class BurdenRoom extends Room<ColyseusRoomState> {
   customMethodController: any = null;
   customLogic: any;
   roomOptions: any;
-  
+  doorBellRung = false;
   /**
    * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
    * @param {*} fileName
@@ -93,7 +93,6 @@ export class BurdenRoom extends Room<ColyseusRoomState> {
 
     this.maxClients = 2;
     this.roomOptions = options;
-
     if (options["roomId"] != null) {
       this.roomId = options["roomId"];
     }

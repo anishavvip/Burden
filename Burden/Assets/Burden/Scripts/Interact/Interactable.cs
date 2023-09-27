@@ -1,36 +1,64 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    float range = 15f;
+    float range = 10;
     bool open;
     Animator animator;
     PlayerController player;
     public bool isLocked = false;
     [HideInInspector] public int counter = 0;
     [SerializeField] TriggeredSpeech TriggeredSpeech;
+    public float extent = 0.5f;
+    [SerializeField] bool canPlaceObjectsInside = false;
+    public enum DirectionOfPull { X, Z, negX, negZ }
+    public DirectionOfPull direction;
+    public void Open()
+    {
+        switch (direction)
+        {
+            case DirectionOfPull.X:
+                transform.DOLocalMove(transform.right * extent, 0.3f);
+                break;
+            case DirectionOfPull.Z:
 
+                transform.DOLocalMove(transform.forward * extent, 0.3f);
+                break;
+            case DirectionOfPull.negX:
+                transform.DOLocalMove(-transform.right * extent, 0.3f);
+                break;
+            case DirectionOfPull.negZ:
+                transform.DOLocalMove(-transform.forward * extent, 0.3f);
+                break;
+        }
+    }
+    public void Close()
+    {
+        transform.DOLocalMove(Vector3.zero, 0.3f);
+    }
     IEnumerator opening()
     {
-        animator.Play("Opening");
+        if (!canPlaceObjectsInside)
+            animator.Play("Opening");
+        else
+            Open();
         open = true;
         yield return new WaitForSeconds(.5f);
     }
 
     IEnumerator closing()
     {
-        animator.Play("Closing");
+        if (!canPlaceObjectsInside)
+            animator.Play("Closing");
+        else
+            Close();
         open = false;
         yield return new WaitForSeconds(.5f);
     }
     void Start()
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            Destroy(rb);
-        }
         animator = GetComponent<Animator>();
         open = false;
         player = ExampleManager.GetPlayer();
@@ -43,6 +71,7 @@ public class Interactable : MonoBehaviour
     {
         if (Player)
         {
+            this.isLocked = isLocked;
             float dist = Vector3.Distance(Player.transform.position, transform.position);
             if (dist < range)
             {
@@ -55,7 +84,7 @@ public class Interactable : MonoBehaviour
                             TriggeredSpeechPlayer(Player);
                         }
 
-                        if (!isLocked)
+                        if (InteractablesHelper.allUnlocked || Player.prefabName == Avatars.Mom.ToString() || (!isLocked && Player.prefabName == Avatars.Child.ToString()))
                             StartCoroutine(opening());
                     }
                 }
@@ -65,13 +94,8 @@ public class Interactable : MonoBehaviour
                     {
                         if (Player.SyncData.rightClicked)
                         {
-                            if (Player.isIntroDone && counter == 0)
-                            {
-                                TriggeredSpeechPlayer(Player);
-                            }
-
-                            if (!isLocked)
-                                StartCoroutine(closing());
+                            InteractablesHelper.allUnlocked = true;
+                            StartCoroutine(closing());
                         }
                     }
 
@@ -100,11 +124,11 @@ public class Interactable : MonoBehaviour
         if (!player.hasGameBegun) return;
 
         Interact(player, isLocked);
-        if (isLocked) return;
+
         ItemDetails itemDetails = new ItemDetails();
         itemDetails.name = ExampleManager.Instance.Avatar.ToString();
         itemDetails.itemName = gameObject.name;
-
+        itemDetails.isLocked = isLocked;
         ExampleManager.CustomServerMethod("itemInteract", new object[] { itemDetails });
     }
 }
