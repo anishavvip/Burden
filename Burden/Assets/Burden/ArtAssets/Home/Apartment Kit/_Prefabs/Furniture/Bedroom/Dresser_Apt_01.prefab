@@ -1142,7 +1142,6 @@ GameObject:
   - component: {fileID: 9171167515581396720}
   - component: {fileID: 9171167515581396727}
   - component: {fileID: 2437068508399721168}
-  - component: {fileID: 8526316726807118903}
   m_Layer: 0
   m_Name: Drawer_02
   m_TagString: Untagged
@@ -1225,28 +1224,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &8526316726807118903
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167515581396722}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &9171167516085824489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,7 +1237,6 @@ GameObject:
   - component: {fileID: 9171167516085824495}
   - component: {fileID: 9171167516085824494}
   - component: {fileID: 3389990038994893276}
-  - component: {fileID: 7087657328914294577}
   m_Layer: 0
   m_Name: Drawer_03
   m_TagString: Untagged
@@ -1342,28 +1319,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &7087657328914294577
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167516085824489}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &9171167516216562192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,7 +1332,6 @@ GameObject:
   - component: {fileID: 9171167516216562198}
   - component: {fileID: 9171167516216562197}
   - component: {fileID: 5598987712276276527}
-  - component: {fileID: 5919486952374977908}
   m_Layer: 0
   m_Name: Drawer_06
   m_TagString: Untagged
@@ -1459,28 +1414,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &5919486952374977908
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167516216562192}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &9171167516435274782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1427,6 @@ GameObject:
   - component: {fileID: 9171167516435274754}
   - component: {fileID: 9171167516435274780}
   - component: {fileID: 255462154321759443}
-  - component: {fileID: 2771806316230221150}
   m_Layer: 0
   m_Name: Drawer_01
   m_TagString: Untagged
@@ -1576,28 +1509,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &2771806316230221150
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167516435274782}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &9171167516444267742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1522,6 @@ GameObject:
   - component: {fileID: 9171167516444267740}
   - component: {fileID: 9171167516444267715}
   - component: {fileID: 8224215485950373543}
-  - component: {fileID: 713750384997090246}
   m_Layer: 0
   m_Name: Drawer_04
   m_TagString: Untagged
@@ -1693,28 +1604,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &713750384997090246
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167516444267742}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &9171167516716684837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,7 +1654,6 @@ GameObject:
   - component: {fileID: 9171167516730836753}
   - component: {fileID: 9171167516730836752}
   - component: {fileID: 6224141461511925095}
-  - component: {fileID: 938994665673694418}
   m_Layer: 0
   m_Name: Drawer_05
   m_TagString: Untagged
@@ -1847,25 +1736,4 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &938994665673694418
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171167516730836755}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0

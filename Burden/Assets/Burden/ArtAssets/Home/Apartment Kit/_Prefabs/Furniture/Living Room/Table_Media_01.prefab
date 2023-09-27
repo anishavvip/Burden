@@ -371,7 +371,6 @@ GameObject:
   - component: {fileID: 5545287591542597059}
   - component: {fileID: 5545287591542597058}
   - component: {fileID: 3139912311417277800}
-  - component: {fileID: 6602313672656571544}
   m_Layer: 0
   m_Name: Drawer_Bottom
   m_TagString: Untagged
@@ -454,28 +453,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &6602313672656571544
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5545287591542597063}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &5545287591628662491
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +466,6 @@ GameObject:
   - component: {fileID: 5545287591628662487}
   - component: {fileID: 5545287591628662486}
   - component: {fileID: 5780342986247462296}
-  - component: {fileID: 7454814287014255636}
   m_Layer: 0
   m_Name: Drawer_Top
   m_TagString: Untagged
@@ -571,28 +548,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
---- !u!64 &7454814287014255636
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5545287591628662491}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  direction: 0
 --- !u!1 &5601342599470214940
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,6 +697,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0
   canPlaceObjectsInside: 0
+  direction: 0
 --- !u!64 &1441583461898990027
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -911,6 +868,7 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0
   canPlaceObjectsInside: 0
+  direction: 0
 --- !u!64 &6381015707069663181
 MeshCollider:
   m_ObjectHideFlags: 0

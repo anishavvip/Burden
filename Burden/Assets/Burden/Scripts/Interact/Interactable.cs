@@ -17,26 +17,26 @@ public class Interactable : MonoBehaviour
     public DirectionOfPull direction;
     public void Open()
     {
+        Debug.Log(direction);
         switch (direction)
         {
             case DirectionOfPull.X:
-                transform.DOLocalMove(transform.right * extent, 0.3f);
+                transform.DOLocalMove(Vector3.right * extent, 0.3f);
                 break;
             case DirectionOfPull.Z:
-
-                transform.DOLocalMove(transform.forward * extent, 0.3f);
+                transform.DOLocalMove(Vector3.forward * extent, 0.3f);
                 break;
             case DirectionOfPull.negX:
-                transform.DOLocalMove(-transform.right * extent, 0.3f);
+                transform.DOLocalMove(-Vector3.right * extent, 0.3f);
                 break;
             case DirectionOfPull.negZ:
-                transform.DOLocalMove(-transform.forward * extent, 0.3f);
+                transform.DOLocalMove(-Vector3.forward * extent, 0.3f);
                 break;
         }
     }
     public void Close()
     {
-        transform.DOLocalMove(Vector3.zero, 0.3f);
+        transform.DOLocalMove(Vector3.zero * extent, 0.3f);
     }
     IEnumerator opening()
     {
@@ -53,7 +53,7 @@ public class Interactable : MonoBehaviour
         if (!canPlaceObjectsInside)
             animator.Play("Closing");
         else
-            Close();
+            //Close();
         open = false;
         yield return new WaitForSeconds(.5f);
     }
