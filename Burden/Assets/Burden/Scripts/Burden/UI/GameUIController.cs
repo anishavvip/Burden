@@ -58,7 +58,9 @@ public class GameUIController : MonoBehaviour
 
     public void Resume()
     {
-        player.SetPause(false);
+        if (player != null)
+            if (player.hasGameBegun)
+                player.SetPause(false);
     }
     private void Start()
     {
