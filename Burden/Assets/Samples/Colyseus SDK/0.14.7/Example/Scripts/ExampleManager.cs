@@ -99,8 +99,8 @@ public class ExampleManager : ColyseusManager<ExampleManager>
 #endif
         // For this example we're going to set the target frame rate
         // and allow the app to run in the background for continuous testing.
-        //Application.targetFrameRate = 60;
-        //Application.runInBackground = true;
+        Application.targetFrameRate = 60;
+        Application.runInBackground = true;
         // Immediately initialize the client
         // Note: we're only doing so for this example and your requirements may differ.
         InitializeClient();
