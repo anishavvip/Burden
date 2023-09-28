@@ -985,6 +985,7 @@ GameObject:
   - component: {fileID: 1978079422507803294}
   - component: {fileID: 5781235530410409309}
   - component: {fileID: 4703042667662292625}
+  - component: {fileID: 3892165221125673928}
   m_Layer: 0
   m_Name: Drawer_02.001
   m_TagString: Untagged
@@ -1058,6 +1059,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3892165221125673928
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319281158331729339}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1199368075862340512, guid: 7a1dd57bd8b6ca44cbf5f922801b2975, type: 3}
 --- !u!1 &7358758786842306949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,6 +1175,7 @@ GameObject:
   - component: {fileID: 2445016746565545167}
   - component: {fileID: 5693601238100927992}
   - component: {fileID: 1934624309666171856}
+  - component: {fileID: 36861834143898596}
   m_Layer: 0
   m_Name: Drawer_01.001
   m_TagString: Untagged
@@ -1225,6 +1249,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &36861834143898596
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7506281314791273968}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4162754804700324120, guid: 7a1dd57bd8b6ca44cbf5f922801b2975, type: 3}
 --- !u!1 &8769538384923608400
 GameObject:
   m_ObjectHideFlags: 0

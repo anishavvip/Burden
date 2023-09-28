@@ -39,14 +39,18 @@ public class InteractablesHelper : MonoBehaviour
                 {
                     if (interactedItem.name == player.prefabName)
                     {
-                        if (DoorKey.Instance.door.name == item.name)
+                        if (DoorKey.Instance.door.name == item.name && !allUnlocked)
                         {
                             if (player.prefabName == Avatars.Mom.ToString())
                             {
-
                                 allUnlocked = true;
                                 DoorKey.Instance.key.SetActive(false);
                                 item.Interact(player, false);
+                            }
+                            else
+                            {
+                                item.isLocked = interactedItem.isLocked;
+                                item.Interact(player, item.isLocked);
                             }
                         }
                         else
@@ -55,7 +59,6 @@ public class InteractablesHelper : MonoBehaviour
                             item.Interact(player, item.isLocked);
                         }
                     }
-                    return;
                 }
             }
     }
@@ -64,6 +67,7 @@ public class InteractablesHelper : MonoBehaviour
     {
         onInteractItem -= InteractItem;
         onGrabItem -= GrabItem;
+        allUnlocked = false;
     }
 
     private void GrabItem(GrabDetails input)

@@ -59,7 +59,23 @@ customMethods.setSyncInputs = function (
   const inputs = param[0];
   roomRef.broadcast("syncData", inputs);
 };
+customMethods.shoot = function (
+  roomRef: BurdenRoom,
+  client: Client,
+  request: any
+) {
+  const param = request.param;
+  const inputs = param[0];
+  roomRef.broadcast("shoot", inputs);
+};
 
+customMethods.ending = function (
+  roomRef: BurdenRoom,
+  client: Client,
+  request: any
+) {
+  roomRef.broadcast("ending", {});
+};
 customMethods.doorBellRing = function (
   roomRef: BurdenRoom,
   client: Client,

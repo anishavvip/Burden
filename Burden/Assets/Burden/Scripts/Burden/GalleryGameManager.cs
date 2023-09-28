@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GalleryGameManager : MonoBehaviour
 {
+    [SerializeField] GameObject endScreen;
     private bool setWaitingText = false;
     private int maxEntities = 6;
     private string _countDownString = "";
@@ -20,7 +21,7 @@ public class GalleryGameManager : MonoBehaviour
     public GameUIController uiController;
     private string userReadyState = "";
     public static GalleryGameManager Instance { get; private set; }
-
+    public AudioClip ouchClip;
     public enum eGameState
     {
         NONE,
@@ -59,8 +60,18 @@ public class GalleryGameManager : MonoBehaviour
         ExampleRoomController.onRemoveNetworkEntity += OnNetworkRemove;
         ExampleRoomController.onRemoveRoom += OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged += OnUserStateChanged;
-
+        ExampleRoomController.onEnd += End;
         uiController.AllowExit(true);
+    }
+
+    private void End()
+    {
+        endScreen.gameObject.SetActive(true);
+        mom.gameObject.SetActive(false);
+        child.gameObject.SetActive(false);
+        TextToSpeech.Instance.Refresh();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     //Unsubscribe
@@ -70,6 +81,7 @@ public class GalleryGameManager : MonoBehaviour
         ExampleRoomController.onRemoveNetworkEntity -= OnNetworkRemove;
         ExampleRoomController.onRemoveRoom -= OnQuitGame;
         ExampleRoomController.OnCurrentUserStateChanged -= OnUserStateChanged;
+        ExampleRoomController.onEnd -= End;
     }
 
     private async void HelpJoinPlayer()

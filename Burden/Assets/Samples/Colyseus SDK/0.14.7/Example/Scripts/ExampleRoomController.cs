@@ -15,7 +15,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 [Serializable]
 public class ExampleRoomController
-{
+{ 
+    public delegate void OnEnd();
+    public delegate void OnShoot(ShootData shoot);
     public delegate void OnBellRing(HiddenKeyData hiddenKeyData);
     public delegate void OnDoorKeyHide(KeyData keyData);
     public delegate void OnSyncAudio(AudioDetails audioDetails);
@@ -228,6 +230,8 @@ public class ExampleRoomController
 
         return null;
     }
+    public static event OnEnd onEnd;
+    public static event OnShoot onShoot;
     public static event OnBellRing onBellRing;
     public static event OnDoorKeyHide onDoorKeyHide;
     public static event OnSyncAudio onSyncAudio;
@@ -394,7 +398,7 @@ public class ExampleRoomController
 
             _currentNetworkedUser = currentNetworkedUser;
         });
-
+        _room.OnMessage<ShootingGalleryMessage>("ending", item => { onEnd?.Invoke(); });
         _room.OnMessage<ExampleRFCMessage>("onRFC", _rfc =>
         {
             //Debug.Log($"Received 'onRFC' {_rfc.entityId}!");
@@ -403,20 +407,19 @@ public class ExampleRoomController
                 _entityViews[_rfc.entityId].RemoteFunctionCallHandler(_rfc);
             }
         });
-
         _room.OnMessage<ExamplePongMessage>(0, message =>
         {
             _lastPong = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             _serverTime = message.serverTime;
             _waitForPong = false;
         });
-
+        _room.OnMessage<ShootData>("shoot", msg => { onShoot?.Invoke(msg); });
         //Custom game logic
         _room.OnMessage<KeyData>("setKey", msg => { onDoorKeyHide?.Invoke(msg); });
         _room.OnMessage<HiddenKeyData>("doorBell", msg =>
         {
             onBellRing?.Invoke(msg);
-        }); 
+        });
         _room.OnMessage<HiddenKeyData>("doorBellRing", msg =>
         {
             IntroScene.hasDoorBellRung = true;

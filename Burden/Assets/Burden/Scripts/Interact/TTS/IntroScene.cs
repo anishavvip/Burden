@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -40,6 +41,7 @@ public class IntroScene : MonoBehaviour
     private void OnDisable()
     {
         ExampleRoomController.onBellRing -= OnBellRing;
+        hasDoorBellRung = false;
     }
     private void OnBellRing(HiddenKeyData hiddenKeyData)
     {
@@ -78,8 +80,9 @@ public class IntroScene : MonoBehaviour
         }
         NotifyUsers(name);
     }
-    void SendDoorBellData()
+    async void SendDoorBellData()
     {
+        await Task.Delay(2000);
         hiddenKeyData.name = player.prefabName;
         ExampleManager.CustomServerMethod("doorBell", new object[] { hiddenKeyData });
         ExampleManager.CustomServerMethod("doorBellRing", new object[] { });
@@ -88,8 +91,26 @@ public class IntroScene : MonoBehaviour
     private void IntroCompletionStatus()
     {
         if (player.prefabName == Avatars.Child.ToString())
+        {
             GalleryGameManager.Instance.child.isIntroDone = true;
+            ShowTask(Avatars.Child);
+        }
         else
+        {
             GalleryGameManager.Instance.mom.isIntroDone = true;
+            ShowTask(Avatars.Mom);
+        }
+    }
+
+    private void ShowTask(Avatars child)
+    {
+        if (child == Avatars.Child)
+        {
+            GameUIController.Instance.ChildTaskDisplay();
+        }
+        else
+        {
+            GameUIController.Instance.MomTaskDisplay();
+        }
     }
 }

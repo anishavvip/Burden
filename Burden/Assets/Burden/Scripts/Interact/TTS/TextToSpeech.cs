@@ -33,7 +33,7 @@ public class TextToSpeech : MonoBehaviour
     string[] speechList;
     [SerializeField] Sprite play, alert;
     bool isDisappear;
-
+    [SerializeField] GameObject canvas;
     IEnumerator TypeWriter(TextMeshProUGUI textComponent, string stringToDisplay, bool isDisappear)
     {
         for (int i = startIndex; i < stringToDisplay.Length; i++)
@@ -54,7 +54,16 @@ public class TextToSpeech : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(1);
             textComponent.text = "";
+            Refresh();
         }
+    }
+    public void Hide()
+    {
+        canvas.SetActive(false);
+    }
+    public void Show()
+    {
+        canvas.SetActive(true);
     }
     public void Refresh()
     {

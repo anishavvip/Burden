@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    float range = 10;
+    float range = 3f;
     bool open;
     Animator animator;
     PlayerController player;
@@ -12,54 +12,56 @@ public class Interactable : MonoBehaviour
     [HideInInspector] public int counter = 0;
     [SerializeField] TriggeredSpeech TriggeredSpeech;
     public float extent = 0.5f;
-    [SerializeField] bool canPlaceObjectsInside = false;
+    public bool canPlaceObjectsInside = false;
     public enum DirectionOfPull { X, Z, negX, negZ }
     public DirectionOfPull direction;
-    public void Open()
+
+    public IEnumerator Open()
     {
         Debug.Log(direction);
         switch (direction)
         {
             case DirectionOfPull.X:
-                transform.DOLocalMove(Vector3.right * extent, 0.3f);
+            case DirectionOfPull.negX:
+                yield return transform.DOLocalMove(Vector3.right * extent, 0.3f);
                 break;
             case DirectionOfPull.Z:
-                transform.DOLocalMove(Vector3.forward * extent, 0.3f);
-                break;
-            case DirectionOfPull.negX:
-                transform.DOLocalMove(-Vector3.right * extent, 0.3f);
+                yield return transform.DOLocalMove(Vector3.forward * extent, 0.3f);
                 break;
             case DirectionOfPull.negZ:
-                transform.DOLocalMove(-Vector3.forward * extent, 0.3f);
+                yield return transform.DOLocalMove(Vector3.back * extent, 0.3f);
                 break;
         }
+
+        yield return new WaitForSeconds(.5f);
     }
-    public void Close()
+    public IEnumerator Close()
     {
-        transform.DOLocalMove(Vector3.zero * extent, 0.3f);
+        yield return transform.DOLocalMove(Vector3.zero * extent, 0.3f);
+
+        yield return new WaitForSeconds(.5f);
     }
     IEnumerator opening()
     {
-        if (!canPlaceObjectsInside)
-            animator.Play("Opening");
-        else
-            Open();
+        animator.Play("Opening");
         open = true;
         yield return new WaitForSeconds(.5f);
     }
 
     IEnumerator closing()
     {
-        if (!canPlaceObjectsInside)
-            animator.Play("Closing");
-        else
-            //Close();
+        animator.Play("Closing");
         open = false;
         yield return new WaitForSeconds(.5f);
     }
     void Start()
     {
         animator = GetComponent<Animator>();
+        if (canPlaceObjectsInside)
+        {
+            animator.applyRootMotion = true;
+            range /= 1.5f;
+        }
         open = false;
         player = ExampleManager.GetPlayer();
         if (player.prefabName == Avatars.Mom.ToString())
@@ -67,7 +69,7 @@ public class Interactable : MonoBehaviour
             isLocked = false;
         }
     }
-    public void Interact(PlayerController Player, bool isLocked = false)
+    public void Interact(PlayerController Player, bool isLocked = false, bool sendData = false)
     {
         if (Player)
         {
@@ -85,7 +87,22 @@ public class Interactable : MonoBehaviour
                         }
 
                         if (InteractablesHelper.allUnlocked || Player.prefabName == Avatars.Mom.ToString() || (!isLocked && Player.prefabName == Avatars.Child.ToString()))
-                            StartCoroutine(opening());
+                        {
+                            if (!canPlaceObjectsInside)
+                            {
+                                StartCoroutine(opening());
+                            }
+                            else
+                            {
+                                open = true;
+                                StartCoroutine(Open());
+                                return;
+                            }
+                            if (sendData)
+                            {
+                                SendData();
+                            }
+                        }
                     }
                 }
                 else
@@ -94,13 +111,23 @@ public class Interactable : MonoBehaviour
                     {
                         if (Player.SyncData.rightClicked)
                         {
-                            InteractablesHelper.allUnlocked = true;
-                            StartCoroutine(closing());
+                            if (!canPlaceObjectsInside)
+                            {
+                                StartCoroutine(closing());
+                            }
+                            else
+                            {
+                                open = false;
+                                StartCoroutine(Close());
+                                return;
+                            }
+                            if (sendData)
+                            {
+                                SendData();
+                            }
                         }
                     }
-
                 }
-
             }
         }
     }
@@ -122,11 +149,12 @@ public class Interactable : MonoBehaviour
     private void OnMouseOver()
     {
         if (!player.hasGameBegun) return;
-
-        Interact(player, isLocked);
-
+        Interact(player, isLocked, true);
+    }
+    private void SendData()
+    {
         ItemDetails itemDetails = new ItemDetails();
-        itemDetails.name = ExampleManager.Instance.Avatar.ToString();
+        itemDetails.name = player.prefabName;
         itemDetails.itemName = gameObject.name;
         itemDetails.isLocked = isLocked;
         ExampleManager.CustomServerMethod("itemInteract", new object[] { itemDetails });

@@ -8,11 +8,29 @@ public class GameUIController : MonoBehaviour
     private GameObject waitingUI = null;
     [SerializeField]
     private TextMeshProUGUI waitingText = null;
-
     [SerializeField]
     private Button exitButton = null;
     [SerializeField] Toggle audioToggle;
     public static bool toggledValue = false;
+
+    [SerializeField] GameObject MomTask, ChildTask;
+    public static GameUIController Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+    public void MomTaskDisplay()
+    {
+        MomTask.SetActive(true);
+    }
+    public void ChildTaskDisplay()
+    {
+        ChildTask.SetActive(true);
+    }
+    private void OnDisable()
+    {
+        toggledValue = false;
+    }
     public void ToggleAudio()
     {
         if (audioToggle != null)
@@ -21,6 +39,7 @@ public class GameUIController : MonoBehaviour
         }
         AudioListener.volume = toggledValue ? 0 : 1;
     }
+
     private void Start()
     {
         audioToggle.isOn = toggledValue;

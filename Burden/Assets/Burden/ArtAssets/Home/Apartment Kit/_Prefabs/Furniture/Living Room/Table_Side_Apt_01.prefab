@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 5594884921497808162}
   - component: {fileID: 1165858228339764706}
   - component: {fileID: 8896407596103779847}
+  - component: {fileID: 9128399405021163507}
   m_Layer: 0
   m_Name: Drawer.001
   m_TagString: Untagged
@@ -379,6 +380,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9128399405021163507
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675043850755170944}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2852694616296380198, guid: 7a1dd57bd8b6ca44cbf5f922801b2975, type: 3}
 --- !u!1 &8698839405852113496
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,3 +496,4 @@ MonoBehaviour:
   TriggeredSpeech: {fileID: 0}
   extent: 0.5
   canPlaceObjectsInside: 1
+  direction: 2

@@ -5,18 +5,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using static ExampleRoomController;
 using Input = UnityEngine.Input;
 using Random = UnityEngine.Random;
 
 public enum AudioType
 {
-    Foot, Land
+    Foot, Land, Shoot
 }
 
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : ExampleNetworkedEntityView
 {
+    [SerializeField] GameUIController gameUIController;
+    [SerializeField] SimpleShoot simpleShoot;
     [SerializeField] GameObject myBody;
     [HideInInspector] public DragRigidbody DragRigidbody = null;
     Vector3 initialPos = Vector3.zero;
@@ -44,7 +47,7 @@ public class PlayerController : ExampleNetworkedEntityView
     [SerializeField]
     private Transform headRoot = null;
 
-    private bool isPaused;
+    public bool isPaused;
 
     [SerializeField]
     private float jumpHeight = 1.0f;
@@ -84,8 +87,9 @@ public class PlayerController : ExampleNetworkedEntityView
     public float FallTimeout = 0.15f;
     [HideInInspector] public bool hasGameBegun = false;
     public IntroScene IntroScene;
-    public bool isIntroDone = false;
-    public bool didPlayerTryUnlocking = false;
+    [HideInInspector] public bool isIntroDone = false;
+    [HideInInspector] public bool didPlayerTryUnlocking = false;
+    [HideInInspector] public ShootData shootData;
 
     protected override void Start()
     {
@@ -95,14 +99,14 @@ public class PlayerController : ExampleNetworkedEntityView
         if (ExampleManager.Instance.Avatar.ToString() == prefabName)
         {
             myBody.gameObject.SetActive(false);
-            headRoot.gameObject.SetActive(true);
             cam.m_Priority = 11;
+            cam.gameObject.SetActive(true);
         }
         else
         {
             myBody.gameObject.SetActive(true);
-            headRoot.gameObject.SetActive(false);
             cam.m_Priority = 10;
+            cam.gameObject.SetActive(false);
         }
         userName = string.Empty;
         _characterController = GetComponent<CharacterController>();
@@ -118,9 +122,22 @@ public class PlayerController : ExampleNetworkedEntityView
 
     private void OnEnable()
     {
-        ExampleRoomController.onSyncAudio += SyncAudio;
-        ExampleRoomController.onBeginRound += BeginRound;
-        ExampleRoomController.onSyncData += GetSyncData;
+        onSyncAudio += SyncAudio;
+        onBeginRound += BeginRound;
+        onSyncData += GetSyncData;
+        onShoot += SyncShoot;
+    }
+
+    private void SyncShoot(ShootData shoot)
+    {
+        if (shoot.name == prefabName)
+        {
+            if (shoot.isTrigger)
+            {
+                if (simpleShoot != null)
+                    simpleShoot.ShootNow();
+            }
+        }
     }
 
     private void SyncAudio(AudioDetails audioDetails)
@@ -137,6 +154,10 @@ public class PlayerController : ExampleNetworkedEntityView
             else if (audioDetails.audioType == AudioType.Land.ToString())
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_characterController.center), FootstepAudioVolume);
+            }
+            else if (audioDetails.audioType == AudioType.Shoot.ToString())
+            {
+                AudioSource.PlayClipAtPoint(GalleryGameManager.Instance.ouchClip, transform.position);
             }
         }
     }
@@ -162,7 +183,6 @@ public class PlayerController : ExampleNetworkedEntityView
             SyncData.leftHold = input.leftHold;
             SyncData.rightClicked = input.rightClicked;
             ExampleManager.Instance.CurrentNetworkedEntity.timestamp = input.timestamp;
-
             if (_hasAnimator)
             {
                 _animator.SetBool(_animIDGrounded, !input.jump);
@@ -180,9 +200,10 @@ public class PlayerController : ExampleNetworkedEntityView
     }
     private void OnDisable()
     {
-        ExampleRoomController.onSyncAudio -= SyncAudio;
-        ExampleRoomController.onSyncData -= GetSyncData;
-        ExampleRoomController.onBeginRound -= BeginRound;
+        onSyncAudio -= SyncAudio;
+        onSyncData -= GetSyncData;
+        onBeginRound -= BeginRound;
+        onShoot -= SyncShoot;
     }
     private IEnumerator WaitForConnect()
     {
@@ -330,7 +351,6 @@ public class PlayerController : ExampleNetworkedEntityView
         {
             return;
         }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetPause(!isPaused);
@@ -371,10 +391,15 @@ public class PlayerController : ExampleNetworkedEntityView
         SyncData.yRot = transform.localRotation.y;
         SyncData.zRot = transform.localRotation.z;
         SyncData.wRot = transform.localRotation.w;
-        SyncData.name = prefabName;
+
+
+        shootData.isTrigger = Input.GetMouseButtonDown(2);
+        shootData.name = prefabName;
+        ExampleManager.CustomServerMethod("shoot", new object[] { shootData });
 
         ExampleManager.CustomServerMethod("setSyncInputs", new object[] { SyncData });
     }
+
     public void JumpAndGravity(bool jump)
     {
         if (isPaused) return;
@@ -445,7 +470,6 @@ public class PlayerController : ExampleNetworkedEntityView
     private void HandleInput(bool left, bool right, bool up, bool down, bool jump, bool sprint)
     {
         if (isPaused) return;
-
         groundedPlayer = _characterController.isGrounded;
         if (_hasAnimator)
         {
@@ -457,7 +481,7 @@ public class PlayerController : ExampleNetworkedEntityView
         }
         float targetMultiplier = sprint ? 2 : 1;
 
-        Vector3 move = GetMoveVector(left, right, up, down);
+        Vector3 move = GetMoveVector(left, right, up, down).normalized;
         if (move == Vector3.zero) targetMultiplier = 0.0f;
 
         _characterController.Move(move * Time.deltaTime * playerSpeed * targetMultiplier);

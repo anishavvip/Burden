@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,7 +5,7 @@ public class DragRigidbody : MonoBehaviour
 {
     float force = 600;
     float damping = 6;
-    float distance = 3;
+    float distance = 2f;
     Transform jointTrans;
     float dragDepth;
     PlayerController player;
@@ -87,13 +84,10 @@ public class DragRigidbody : MonoBehaviour
             return;
         var worldPos = Camera.main.ScreenToWorldPoint(screenPosition);
         jointTrans.position = CameraPlane.ScreenToWorldPlanePoint(Camera.main, dragDepth, screenPosition);
-
-        DrawRope();
     }
 
     public void HandleInputEnd(Vector3 screenPosition)
     {
-        DestroyRope();
         Destroy(jointTrans.gameObject);
         player.DragRigidbody = null;
         isDrag = false;
@@ -129,17 +123,15 @@ public class DragRigidbody : MonoBehaviour
         drive.maximumForce = Mathf.Infinity;
         return drive;
     }
-
-    private void DrawRope()
+    private void OnCollisionEnter(Collision col)
     {
-        if (jointTrans == null)
-        {
-            return;
-        }
+        Interactable interactable = col.collider.gameObject.GetComponentInParent<Interactable>();
+        if (interactable != null)
+            if (interactable.canPlaceObjectsInside) 
+                gameObject.transform.SetParent(col.gameObject.transform, true);
     }
-
-    private void DestroyRope()
+    private void OnCollisionExit(Collision col)
     {
-
+        gameObject.transform.parent = null;
     }
 }
