@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,10 +16,28 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField] GameObject MomTask, ChildTask;
     public static GameUIController Instance;
+
+    PlayerController player;
+    int counterTaskDisplay = 0;
     private void Awake()
     {
         Instance = this;
     }
+    public async void AlertRepeatingMomTask()
+    {
+        counterTaskDisplay++;
+        MomTask.SetActive(false);
+        await Task.Delay(25000 * counterTaskDisplay);
+        MomTask.SetActive(true);
+    }
+    public async void AlertRepeatingChildTask()
+    {
+        counterTaskDisplay++;
+        ChildTask.SetActive(false);
+        await Task.Delay(25000 * counterTaskDisplay);
+        ChildTask.SetActive(true);
+    }
+
     public void MomTaskDisplay()
     {
         MomTask.SetActive(true);
@@ -27,10 +46,7 @@ public class GameUIController : MonoBehaviour
     {
         ChildTask.SetActive(true);
     }
-    private void OnDisable()
-    {
-        toggledValue = false;
-    }
+
     public void ToggleAudio()
     {
         if (audioToggle != null)
@@ -40,11 +56,16 @@ public class GameUIController : MonoBehaviour
         AudioListener.volume = toggledValue ? 0 : 1;
     }
 
+    public void Resume()
+    {
+        player.SetPause(false);
+    }
     private void Start()
     {
         audioToggle.isOn = toggledValue;
         waitingUI.SetActive(true);
         waitingText.text = "...";
+        player = ExampleManager.GetPlayer();
     }
 
     public void AllPlayersHaveJoined()

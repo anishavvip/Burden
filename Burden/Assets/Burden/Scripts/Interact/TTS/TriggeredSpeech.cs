@@ -22,7 +22,7 @@ public class TriggeredSpeech : MonoBehaviour
     }
     public void Speech(string avatar)
     {
-        if (player.hasGameBegun)
+        if (player.hasGameBegun && !player.isPaused)
         {
             if (avatar.ToString() == player.prefabName)
             {

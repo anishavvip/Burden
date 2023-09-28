@@ -10,7 +10,7 @@ public class DoorKey : MonoBehaviour
     [SerializeField] AudioClip doorOpen;
     PlayerController player;
     [TextAreaAttribute(1, 20)]
-    public string speech, preSpeech;
+    public string preSpeech;
     bool gotPos = false;
     string[] indices;
     string spot;
@@ -89,18 +89,19 @@ public class DoorKey : MonoBehaviour
     private void Update()
     {
         if (player != null)
-            if (player.hasGameBegun && !initialDataShared && player.prefabName == Avatars.Child.ToString())
-            {
-                if (unlocked && !door.isLocked || InteractablesHelper.allUnlocked) key.SetActive(false);
-
-                if (index != -1)
+            if (!player.isPaused)
+                if (player.hasGameBegun && !initialDataShared && player.prefabName == Avatars.Child.ToString())
                 {
-                    keyData.index = index;
-                    Debug.Log("spot" + index);
-                    ExampleManager.CustomServerMethod("setKey", new object[] { keyData });
-                    initialDataShared = true;
+                    if (unlocked && !door.isLocked || InteractablesHelper.allUnlocked) key.SetActive(false);
+
+                    if (index != -1)
+                    {
+                        keyData.index = index;
+                        Debug.Log("spot" + index);
+                        ExampleManager.CustomServerMethod("setKey", new object[] { keyData });
+                        initialDataShared = true;
+                    }
                 }
-            }
     }
     private void OnEnable()
     {
@@ -132,6 +133,8 @@ public class DoorKey : MonoBehaviour
     private void OnMouseOver()
     {
         if (player == null) return;
+        if (player.isPaused) return;
+  
         if (!player.hasGameBegun) return;
         if (player.prefabName == Avatars.Mom.ToString()) return;
 
@@ -141,11 +144,7 @@ public class DoorKey : MonoBehaviour
             if (player.isIntroDone)
             {
                 TextToSpeech.Instance.Refresh();
-                if (player.didPlayerTryUnlocking && door.isLocked && !unlocked)
-                {
-                    TextToSpeech.Instance.SpeakText(Avatars.Child, speech, false);
-                }
-                else
+                if (player.didPlayerTryUnlocking && door.isLocked)
                 {
                     TextToSpeech.Instance.SpeakText(Avatars.Child, preSpeech, false);
                 }

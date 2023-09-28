@@ -1293,8 +1293,8 @@ MonoBehaviour:
     friends</e1>.\r\nRemember the neighbor thing? My mom went<e1> full drama queen</e1>.\r\n<e1>Now,
     I'm just waiting for those university letters</e1>. \r\nEven though I <e1>aced
     their tests</e1>, my mailbox is on <v2>vacation</v2>.\r"
-  doorBellSpeech: ' Did I miss the <e1>bell ring?</e1> It must be that <e1>university</e1>
-    letter at <v2>last!</v2>'
+  doorBellSpeech: Did the <e1>bell ring?</e1> It must be that <e1>university</e1>
+    letter at <v2>last!</v2>
   doorBell: {fileID: 8300000, guid: da9e8135ad7d9034d9136d8ecb4bd01f, type: 3}
   audioSource: {fileID: 723929368503378678}
   avatar: 1
@@ -1577,7 +1577,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}

@@ -274,8 +274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characteristics:
     engineID: Julie D16
-    volume: 76
-    pitch: 152
+    volume: 97
+    pitch: 167
     speed: 81
     pause: 2490
     commaPause: 1929
@@ -528,7 +528,7 @@ MonoBehaviour:
   characteristics:
     engineID: Julie D16
     volume: 97
-    pitch: 86
+    pitch: 70
     speed: 81
     pause: 2490
     commaPause: 1929

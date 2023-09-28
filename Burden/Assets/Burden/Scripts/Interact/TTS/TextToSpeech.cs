@@ -4,6 +4,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -34,6 +35,8 @@ public class TextToSpeech : MonoBehaviour
     [SerializeField] Sprite play, alert;
     bool isDisappear;
     [SerializeField] GameObject canvas;
+    PlayerController player;
+
     IEnumerator TypeWriter(TextMeshProUGUI textComponent, string stringToDisplay, bool isDisappear)
     {
         for (int i = startIndex; i < stringToDisplay.Length; i++)
@@ -127,11 +130,22 @@ public class TextToSpeech : MonoBehaviour
     {
         TTS.Init();
     }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (player != null)
         {
-            PlayNextLine();
+            if (player.hasGameBegun)
+                if (!player.isPaused)
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        PlayNextLine();
+                    }
+        }
+        else
+        {
+            if (SceneManager.GetActiveScene().name != "Lobby")
+                player = ExampleManager.GetPlayer();
         }
         if (currentSpeaker != null)
         {

@@ -23,7 +23,7 @@ public class IntroScene : MonoBehaviour
     }
     public void Intro()
     {
-        if (player.hasGameBegun)
+        if (player.hasGameBegun && !player.isPaused)
         {
             if (avatar.ToString() == player.prefabName)
             {
@@ -57,11 +57,11 @@ public class IntroScene : MonoBehaviour
                 if (name == Avatars.Child.ToString())
                 {
                     await Task.Delay(1000);
-                    TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech, false, IntroCompletionStatus);
+                    TextToSpeech.Instance.SpeakText(Avatars.Child, doorBellSpeech, false, DoorBellTriggerIntroCompletionStatus);
                 }
                 else
                 {
-                    TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech, false, IntroCompletionStatus);
+                    TextToSpeech.Instance.SpeakText(Avatars.Mom, doorBellSpeech, false, DoorBellTriggerIntroCompletionStatus);
                 }
             }
         }
@@ -88,16 +88,19 @@ public class IntroScene : MonoBehaviour
         ExampleManager.CustomServerMethod("doorBellRing", new object[] { });
     }
 
-    private void IntroCompletionStatus()
+    private async void DoorBellTriggerIntroCompletionStatus()
     {
+        player.SetPause(true);
         if (player.prefabName == Avatars.Child.ToString())
         {
             GalleryGameManager.Instance.child.isIntroDone = true;
+            await Task.Delay(2000);
             ShowTask(Avatars.Child);
         }
         else
         {
             GalleryGameManager.Instance.mom.isIntroDone = true;
+            await Task.Delay(2000);
             ShowTask(Avatars.Mom);
         }
     }

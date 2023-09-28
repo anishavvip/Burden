@@ -96,6 +96,7 @@ public class PlayerController : ExampleNetworkedEntityView
         initialPos = transform.position;
         base.Start();
         _hasAnimator = TryGetComponent(out _animator);
+        headRoot.gameObject.SetActive(true);
         if (ExampleManager.Instance.Avatar.ToString() == prefabName)
         {
             myBody.gameObject.SetActive(false);

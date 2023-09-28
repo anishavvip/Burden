@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    float range = 3f;
+    float range = 4f;
     bool open;
     Animator animator;
     PlayerController player;
@@ -23,13 +23,13 @@ public class Interactable : MonoBehaviour
         {
             case DirectionOfPull.X:
             case DirectionOfPull.negX:
-                yield return transform.DOLocalMove(Vector3.right * extent, 0.3f);
+                yield return transform.DOLocalMove((transform.localPosition + Vector3.right * extent), 0.3f);
                 break;
             case DirectionOfPull.Z:
-                yield return transform.DOLocalMove(Vector3.forward * extent, 0.3f);
+                yield return transform.DOLocalMove((transform.localPosition + Vector3.forward * extent), 0.3f);
                 break;
             case DirectionOfPull.negZ:
-                yield return transform.DOLocalMove(Vector3.back * extent, 0.3f);
+                yield return transform.DOLocalMove((transform.localPosition - Vector3.forward * extent), 0.3f);
                 break;
         }
 
@@ -37,7 +37,19 @@ public class Interactable : MonoBehaviour
     }
     public IEnumerator Close()
     {
-        yield return transform.DOLocalMove(Vector3.zero * extent, 0.3f);
+        switch (direction)
+        {
+            case DirectionOfPull.X:
+            case DirectionOfPull.negX:
+                yield return transform.DOLocalMove((transform.localPosition - Vector3.right * extent), 0.3f);
+                break;
+            case DirectionOfPull.Z:
+                yield return transform.DOLocalMove((transform.localPosition - Vector3.forward * extent), 0.3f);
+                break;
+            case DirectionOfPull.negZ:
+                yield return transform.DOLocalMove((transform.localPosition + Vector3.forward * extent), 0.3f);
+                break;
+        }
 
         yield return new WaitForSeconds(.5f);
     }
@@ -149,6 +161,7 @@ public class Interactable : MonoBehaviour
     private void OnMouseOver()
     {
         if (!player.hasGameBegun) return;
+        if (player.isPaused) return;
         Interact(player, isLocked, true);
     }
     private void SendData()

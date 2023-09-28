@@ -5,7 +5,7 @@ public class DragRigidbody : MonoBehaviour
 {
     float force = 600;
     float damping = 6;
-    float distance = 2f;
+    float distance = 3f;
     Transform jointTrans;
     float dragDepth;
     PlayerController player;
